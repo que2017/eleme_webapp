@@ -1,9 +1,9 @@
 <template>
   <div>
-    <v-header></v-header>
+    <v-header :seller="seller"></v-header>
     <div class="tab border-1px">
       <div class="tab-item">
-        <router-link to="/goods" class="r-link">商品</router-link>
+        <router-link to="/goods" class="r-link router-link-active">商品</router-link>
       </div>
       <div class="tab-item">
         <router-link to="/ratings" class="r-link">评论</router-link>
@@ -16,10 +16,23 @@
   </div>
 </template>
 
-<script>
+<script type="text/ecmascript-6">
   import header from './components/header/header.vue'
+  const ERR_OK = 0
 
   export default {
+    data () {
+      return {
+        seller: {}
+      }
+    },
+    created () {
+      this.$http.get('/api/seller').then((response) => {
+        if (response.data.errno === ERR_OK) {
+          this.seller = response.data.data
+        }
+      })
+    },
     components: {
       'v-header': header
     }
