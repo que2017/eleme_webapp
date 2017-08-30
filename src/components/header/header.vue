@@ -28,6 +28,8 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
+  @import "../../common/stylus/minix.styl";
+
   .header
     color: #fff
     background: #000
@@ -36,8 +38,30 @@
       font-size: 0
       .avatar
         display: inline-block
+        border-radius: 2px
+        overflow: hidden
       .content
         display: inline-block
+        vertical-align: top
         margin-left: 16px
         font-size: 14px
+        .title
+          padding: 2px 0 8px 0
+          font-size: 0
+          .brand
+            display: inline-block
+            vertical-align: top
+            width: 30px
+            height: 18px
+            margin-right: 6px
+            bg-image('brand')
+            background-size: 30px 18px
+            background-repeat: no-repeat
+          .name
+            color: #fff
+            font-size: 16px
+            font-weight: bold
+            line-height: 18px
+
+        
 </style>
