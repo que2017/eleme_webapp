@@ -10,12 +10,16 @@
           <span class="name">{{seller.name}}</span>
         </div>
         <div class="description">
-          {{seller.description}}/{{seller.deliveryTime}}分钟送达
+          {{seller.description}} / {{seller.deliveryTime}}分钟送达
         </div>
         <div class="support" v-if="seller.supports">
-          <span class="icon"></span>
+          <span class="icon" :class="cssMap[seller.supports[0].type]"></span>
           <span class="text">{{seller.supports[0].description}}</span>
         </div>
+      </div>
+      <div v-if="seller.supports" class="sup-num">
+        <span class="num">{{seller.supports.length}}个</span>
+        <span class="icon-keyboard_arrow_right"></span>
       </div>
     </div>
   </div>
@@ -23,7 +27,10 @@
 
 <script type="text/ecmascript-6">
   export default {
-    props: ['seller']
+    props: ['seller'],
+    created () {
+      this.cssMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee']
+    }
   }
 </script>
 
@@ -32,8 +39,9 @@
 
   .header
     color: #fff
-    background: #000
+    background: #999
     .content-wrap
+      position: relative
       padding: 24px 12px 18px 24px
       font-size: 0
       .avatar
@@ -44,10 +52,9 @@
         display: inline-block
         vertical-align: top
         margin-left: 16px
-        font-size: 14px
+        font-size: 0px
         .title
           padding: 2px 0 8px 0
-          font-size: 0
           .brand
             display: inline-block
             vertical-align: top
@@ -62,6 +69,52 @@
             font-size: 16px
             font-weight: bold
             line-height: 18px
+        .description
+          font-size: 12px
+          line-height: 12px
+          margin-bottom: 10px
+        .support
+          .icon
+            display: inline-block
+            vertical-align: top
+            width: 12px
+            height: 12px
+            margin-right: 4px
+            background-size: 12px 12px
+            background-repeat: no-repeat
+            &.decrease
+              bg-image('decrease_1')
+            &.discount
+              bg-image('discount_1')
+            &.special
+              bg-image('special_1')
+            &.invoice
+              bg-image('invoice_1')
+            &.guarantee
+              bg-image('guarantee_1')
+          .text
+            line-height: 12px
+            font-size: 10px
+      .sup-num
+        position: absolute
+        right: 12px
+        bottom: 12px
+        height: 24px
+        padding: 0 8px
+        border-radius: 14px
+        background: rgba(0,0,0,0.2)
+        .num
+          display: inline-block
+          vertical-align: middle
+          height: 24px
+          line-height: 24px
+          font-size: 10px
+        .icon-keyboard_arrow_right
+          display: inline-block
+          vertical-align: middle
+          height: 24px
+          line-height: 24px
+          margin-left: 2px
+          font-size: 10px
 
-        
 </style>
