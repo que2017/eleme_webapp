@@ -22,6 +22,13 @@
         <span class="icon-keyboard_arrow_right"></span>
       </div>
     </div>
+    <div class="bulletin-wrap">
+      <span class="bull-icon"></span><span class="bull-text">{{seller.bulletin}}</span>
+      <i class="icon-keyboard_arrow_right"></i>
+    </div>
+    <div class="bg">
+      <img :src="seller.avatar" width="100%">
+    </div>
   </div>
 </template>
 
@@ -38,8 +45,9 @@
   @import "../../common/stylus/minix.styl";
 
   .header
+    position: relative
     color: #fff
-    background: #999
+    background-color: rgba(7,17,27,0.5)
     .content-wrap
       position: relative
       padding: 24px 12px 18px 24px
@@ -116,5 +124,44 @@
           line-height: 24px
           margin-left: 2px
           font-size: 10px
+    .bulletin-wrap
+      position: relative
+      height: 28px
+      line-height: 28px
+      padding: 0 50px 0 12px
+      background-color: rgba(7,17,27,0.2)
+      white-space: nowrap
+      overflow: hidden
+      text-overflow: ellipsis
+      &>span
+        display: inline-block
+      .bull-icon
+        width: 22px
+        height: 12px
+        margin: 8px 4px 0 0
+        bg-image('bulletin')
+        background-size: 100% 100%
+      .bull-text
+        vertical-align: top
+        padding-right: 22px
+        font-size: 10px
+      .icon-keyboard_arrow_right
+        position: absolute
+        right: 12px
+        top: 50%
+        margin-top: -8px
+    .bg
+      position: absolute
+      top: 0
+      left: 0
+      z-index: -1
+      width: 100%
+      height: 100%
+      overflow: hidden
+      filter: blur(10px)
+      &>img
+        position: absolute
+        top: -112px
+        left: 0px
 
 </style>
