@@ -23,11 +23,7 @@
 
 <script type="text/ecmascript-6">
   export default {
-    props: {
-      seller: {
-        type: Object
-      }
-    }
+    props: ['seller']
   }
 </script>
 
@@ -42,5 +38,6 @@
         display: inline-block
       .content
         display: inline-block
+        margin-left: 16px
         font-size: 14px
 </style>
