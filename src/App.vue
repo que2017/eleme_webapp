@@ -3,7 +3,7 @@
     <v-header :seller="seller"></v-header>
     <div class="tab border-1px">
       <div class="tab-item">
-        <router-link to="/goods" class="r-link router-link-active">商品</router-link>
+        <router-link to="/goods" class="r-link">商品</router-link>
       </div>
       <div class="tab-item">
         <router-link to="/ratings" class="r-link">评论</router-link>
@@ -40,7 +40,7 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-  @import "common/stylus/minix.styl";
+  @import "./common/stylus/minix.styl";
   .tab
     display: flex
     width: 100%
