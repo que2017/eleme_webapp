@@ -46,6 +46,7 @@
 
   .header
     position: relative
+    overflow: hidden
     color: #fff
     background-color: rgba(7,17,27,0.5)
     .content-wrap
@@ -157,7 +158,6 @@
       z-index: -1
       width: 100%
       height: 100%
-      overflow: hidden
       filter: blur(10px)
       &>img
         position: absolute
