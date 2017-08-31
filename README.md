@@ -21,6 +21,8 @@ npm run build --report
 For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
 ## 项目结构
+
+``` bash
 .
 ├── build/                      # webpack config files
 │   └── ...
@@ -51,6 +53,7 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
 ├── .editorconfig               # editor config
 ├── index.html                  # index.html template
 └── package.json                # build scripts and dependencies
+```
 
 ## 项目开发中遇到的问题
 
