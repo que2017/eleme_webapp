@@ -24,34 +24,41 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
 
 ``` bash
 .
-├── build/                      # webpack config files
+├── build/                      # webpack 配置文件
 │   └── ...
 ├── config/
-│   ├── index.js                # main project config
+│   ├── index.js                # main project 配置
 │   └── ...
+├── resource/
+│   └── _MACOSX/                
+│   │   └── resource/           
+│   │       ├── 标注/           
+│   │       ├── img/            
+|   |       └── ._.DS_Store     
+│   └── resource/               # 项目相关的图片
+│       ├── 标注/               
+│       ├── img/                # 项目图片
+│       ├── PSD/                # PSD图
+│       └── SVG/                # SVG图
 ├── src/
-│   ├── main.js                 # app entry file
-│   ├── App.vue                 # main app component
-│   ├── components/             # ui components
-│   │   └── ...
-│   └── assets/                 # module assets (processed by webpack)
-│       └── ...
+│   ├── main.js                 # app入口文件
+│   ├── App.vue                 # main app 组件
+│   ├── components/
+|   |   ├── goods/              # goods components
+|   |   ├── header/             # header components
+|   |   ├── ratings/            # ratings components
+│   │   └── seller/             # seller components
+│   └── common/                 
+|   |   ├── fonts/              # 字体图标库
+│   |   └── stylus/             # 组件样式
+│   └── router/                 # 路由配置
 ├── static/                     # pure static assets (directly copied)
-├── test/
-│   └── unit/                   # unit tests
-│   │   ├── specs/              # test spec files
-│   │   ├── index.js            # test build entry file
-│   │   └── karma.conf.js       # test runner config file
-│   └── e2e/                    # e2e tests
-│   │   ├── specs/              # test spec files
-│   │   ├── custom-assertions/  # custom assertions for e2e tests
-│   │   ├── runner.js           # test runner script
-│   │   └── nightwatch.conf.js  # test runner config file
 ├── .babelrc                    # babel config
 ├── .postcssrc.js               # postcss config
 ├── .eslintrc.js                # eslint config
 ├── .editorconfig               # editor config
 ├── index.html                  # index.html template
+├── data.json                   # 模拟后台数据
 └── package.json                # build scripts and dependencies
 ```
 
