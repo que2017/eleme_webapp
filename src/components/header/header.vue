@@ -17,26 +17,54 @@
           <span class="text">{{seller.supports[0].description}}</span>
         </div>
       </div>
-      <div v-if="seller.supports" class="sup-num">
+      <div v-if="seller.supports" class="sup-num" @click="showDetail">
         <span class="num">{{seller.supports.length}}个</span>
         <span class="icon-keyboard_arrow_right"></span>
       </div>
     </div>
-    <div class="bulletin-wrap">
+    <div class="bulletin-wrap" @click="showDetail">
       <span class="bull-icon"></span><span class="bull-text">{{seller.bulletin}}</span>
       <i class="icon-keyboard_arrow_right"></i>
     </div>
     <div class="bg">
       <img :src="seller.avatar" width="100%">
     </div>
+    <div class="detail" v-show="show_detail">
+      <div class="detail-wrap">
+        <div class="detail-main">
+          <p class="title">{{seller.name}}</p>
+          <div class="score">
+            <star :size="48" :score="seller.score"></star>
+          </div>
+        </div>
+      </div>
+      <div class="detail-close">
+        <span class="icon-close"></span>
+      </div>
+    </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+  import star from '../star/star'
+
   export default {
     props: ['seller'],
+    data () {
+      return {
+        show_detail: true
+      }
+    },
+    methods: {
+      showDetail () {
+        this.show_detail = true
+      }
+    },
     created () {
       this.cssMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee']
+    },
+    components: {
+      star
     }
   }
 </script>
@@ -163,5 +191,36 @@
         position: absolute
         top: -112px
         left: 0px
+    .detail
+      position: fixed
+      z-index: 10
+      top: 0
+      left: 0
+      width: 100%
+      height: 100%
+      overflow: auto
+      background: rgba(7,17,27,0.8)
+      .detail-wrap
+        min-height: 100%
+        .detail-main
+          width: 100%
+          padding-top: 64px
+          padding-bottom: 64px
+          .title
+            width: 100%
+            text-align: center
+            font-size: 16px
+            font-weight: 700
+          .score
+            margin: 16px 0 28px 0
+            text-align: center
+      .detail-close
+        position: relative
+        width:32px
+        height:32px
+        margin: 0 auto
+        margin-top: -64px
+        .icon-close
+          font-size: 32px
 
 </style>
