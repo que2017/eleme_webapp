@@ -1,6 +1,6 @@
 <template>
   <div>
-    this is goods！
+    this is goods！！
   </div>
 </template>
 
