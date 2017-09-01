@@ -23,7 +23,8 @@
       </div>
     </div>
     <div class="bulletin-wrap" @click="showDetail">
-      <span class="bull-icon"></span><span class="bull-text">{{seller.bulletin}}</span>
+      <span class="bull-icon"></span>
+      <p class="bull-text">{{seller.bulletin}}</p>
       <i class="icon-keyboard_arrow_right"></i>
     </div>
     <div class="bg">
@@ -38,7 +39,7 @@
           </div>
         </div>
       </div>
-      <div class="detail-close">
+      <div class="detail-close" @click="hideDetail">
         <span class="icon-close"></span>
       </div>
     </div>
@@ -52,12 +53,15 @@
     props: ['seller'],
     data () {
       return {
-        show_detail: true
+        show_detail: false
       }
     },
     methods: {
       showDetail () {
         this.show_detail = true
+      },
+      hideDetail () {
+        this.show_detail = false
       }
     },
     created () {
@@ -89,7 +93,7 @@
         display: inline-block
         vertical-align: top
         margin-left: 16px
-        font-size: 0px
+        font-size: 0
         .title
           padding: 2px 0 8px 0
           .brand
@@ -156,24 +160,23 @@
     .bulletin-wrap
       position: relative
       height: 28px
-      line-height: 28px
-      padding: 0 50px 0 12px
       background-color: rgba(7,17,27,0.2)
-      white-space: nowrap
-      overflow: hidden
-      text-overflow: ellipsis
-      &>span
-        display: inline-block
       .bull-icon
+        position: absolute
+        top: 8px
+        left: 12px
         width: 22px
         height: 12px
-        margin: 8px 4px 0 0
         bg-image('bulletin')
         background-size: 100% 100%
       .bull-text
-        vertical-align: top
-        padding-right: 22px
+        padding: 0 28px 0 38px
+        height: 28px
+        line-height: 28px
         font-size: 10px
+        white-space: nowrap
+        overflow: hidden
+        text-overflow: ellipsis
       .icon-keyboard_arrow_right
         position: absolute
         right: 12px
@@ -190,7 +193,7 @@
       &>img
         position: absolute
         top: -112px
-        left: 0px
+        left: 0
     .detail
       position: fixed
       z-index: 10
