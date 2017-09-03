@@ -259,7 +259,7 @@
               .item
                 font-size: 0
                 margin-bottom: 12px
-              &:lastchild
+              &:last-child
                 margin-bottom: 0
               .icon
                 display: inline-block
