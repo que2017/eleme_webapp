@@ -2,16 +2,16 @@
   <div class="goods-wrap">
     <div class="menu-wrap" ref="menuWrap">
       <ul>
-        <li v-for="item in goods" class="menu-item border-1px">
+        <li v-for="item,index in goods" class="menu-item border-1px" :class="{'current':nowIndex === index}" @click="menuTouch(index)">
           <span class="text">
-            <span v-show="item.type>=0" class="icon" :class="cssMap[item.type]"></span>{{item.name}}            
+            <span v-show="item.type>=0" class="icon" :class="cssMap[item.type]"></span>{{item.name}}
           </span>
         </li>
       </ul>
     </div>
     <div class="foods-wrap" ref="foodsWrap">
       <ul>
-        <li v-for="cate in goods" class="food-cate">
+        <li v-for="cate in goods" class="food-cate food-hook">
           <h2 class="title">{{cate.name}}</h2>
           <ul>
             <li v-for="item in cate.foods" class="food-item border-1px">
@@ -44,7 +44,18 @@
     props: ['seller'],
     data () {
       return {
-        goods: []
+        goods: [],
+        height: [],
+        scrollY: 0
+      }
+    },
+    computed: {
+      nowIndex () {
+        for (let i = 0; i < this.height.length - 1; i++) {
+          if (this.height[i] <= this.scrollY && this.height[i + 1] > this.scrollY) {
+            return i
+          }
+        }
       }
     },
     created () {
@@ -53,6 +64,7 @@
           this.goods = response.data.data
           this.$nextTick(() => {
             this._initScroll()
+            this._calcuHeight()
           })
         }
       })
@@ -60,8 +72,31 @@
     },
     methods: {
       _initScroll () {
-        this.meunScroll = new BScroll(this.$refs.menuWrap, {})
-        this.foodsScroll = new BScroll(this.$refs.foodsWrap, {})
+        this.meunScroll = new BScroll(this.$refs.menuWrap, {
+          click: true
+        })
+        this.foodsScroll = new BScroll(this.$refs.foodsWrap, {
+          probeType: 3,
+          click: true
+        })
+        this.foodsScroll.on('scroll', (pos) => {
+          this.scrollY = Math.abs(Math.round(pos.y))
+          // console.log(this.scrollY)
+        })
+      },
+      _calcuHeight () {
+        let foodsList = this.$refs.foodsWrap.querySelectorAll('.food-hook')
+        let h = 0
+        this.height.push(h)
+        for (let i = 0; i < foodsList.length; i++) {
+          h += foodsList[i].clientHeight
+          this.height.push(h)
+        }
+      },
+      menuTouch (index) {
+        let foodsList = this.$refs.foodsWrap.querySelectorAll('.food-hook')
+        let elem = foodsList[index]
+        this.foodsScroll.scrollToElement(elem, 300)
       }
     }
   }
@@ -86,11 +121,15 @@
         padding: 0 12px
         border-1px(rgba(7,17,27,0.1))
         background: #f3f5f7
+        font-weight: 200
+        &.current
+          background-color: #fff
+          color: #000
+          font-weight: 700
         .text
           display: table-cell
           vertical-align: middle
           width: 56px
-          font-weight: 200
           font-size: 12px
           line-height: 14px
           .icon
@@ -128,7 +167,7 @@
           margin-left: 18px
           padding: 18px 0
           border-1px(rgba(7,17,27,0.1))
-          &:last-chlid
+          &:last-child
             border-none()
           .icon
             flex: 0 0 57px
