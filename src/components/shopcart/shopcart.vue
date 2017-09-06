@@ -1,18 +1,48 @@
 <template>
   <div class="shopcart-wrap">
     <div class="shopcart-left clearfix">
-      <div class="cart">
+      <div class="cart" :class="{'heiglight':totalCount>0}">
         <span class="icon-shopping_cart"></span>
+        <span class="num-icon" v-show="totalCount>0">{{selectFoods.length}}</span>
       </div>
-      <div class="price">￥0</div>
-      <div class="dispatch">另需配送费￥4元</div>
+      <div class="price" :class="{'heiglight':totalCount>0}">
+        ￥{{totalCount > 0 ? totalCount : 0}}
+      </div>
+      <div class="dispatch">另需配送费￥{{deliveryPrice}}元</div>
     </div>
-    <div class="shopcart-right">￥20起送</div>
+    <div class="shopcart-right">{{payDescription}}</div>
   </div>
 </template>
 
 <script>
-  export default {}
+  export default {
+    props: ['selectFoods', 'deliveryPrice', 'minPrice'],
+    computed: {
+      totalPrice () {
+        let price = 0
+//        this.selectFoods.forEach((food) => {
+//          price += food.price * food.count
+//        })
+        return price
+      },
+      totalCount () {
+        let count = 0
+        this.selectFoods.forEach((food) => {
+          count += food.count
+        })
+        return count
+      },
+      payDescription () {
+        if (this.totalPrice === 0) {
+          return `￥${this.minPrice}元起送`
+        } else if (this.totalPrice < this.minPrice) {
+          return `还差￥${this.minPrice - this.totalPrice}元起送`
+        } else {
+          return `去结算`
+        }
+      }
+    }
+  }
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
@@ -24,12 +54,13 @@
     display: flex
     width: 100%
     height: 48px
-    color: rgba(255,255,255,0.4)
+    color: rgba(255, 255, 255, 0.4)
     .shopcart-left
       flex: 1
       height: 100%
       background: #141d27
       .cart
+        position: relative
         float: left
         width: 44px
         height: 44px
@@ -40,6 +71,23 @@
         text-align: center
         font-size: 24px
         line-height: 44px
+        &.heiglight
+          background: rgb(0, 160, 220)
+          color: #fff
+        .num-icon
+          position: absolute
+          top: -6px
+          right: 0
+          width: 24px
+          height: 16px
+          border-radius: 8px
+          background: rgb(240, 20, 20)
+          color: #fff
+          text-align: center
+          line-height: 16px
+          font-size: 9px
+          font-weight: 700
+          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4)
       .price
         float: left
         height: 24px
@@ -47,12 +95,14 @@
         font-size: 16px
         font-weight: 700
         line-height: 24px
+        &.heiglight
+          color: #fff
       .dispatch
         float: left
         height: 24px
         padding-left: 12px
         margin: 12px 0
-        border-left: 1px solid rgba(255,255,255,0.1)
+        border-left: 1px solid rgba(255, 255, 255, 0.1)
         font-size: 12px
         line-height: 24px
     .shopcart-right
