@@ -28,12 +28,13 @@
                   <span v-show="item.oldPrice" class="old-price">{{item.oldPrice}}</span>
                 </div>
               </div>
+              <div class="select"></div>
             </li>
           </ul>
         </li>
       </ul>
     </div>
-    <shopcart></shopcart>
+    <shopcart :selectFoods="selectFoods" :deliveryPrice="seller.deliveryPrice" :minPrice="seller.minPrice"></shopcart>
   </div>
 </template>
 
@@ -58,6 +59,9 @@
             return i
           }
         }
+      },
+      selectFoods () {
+          return [1]
       }
     },
     created () {
