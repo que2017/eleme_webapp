@@ -33,10 +33,12 @@
         </li>
       </ul>
     </div>
+    <shopcart></shopcart>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+  import shopcart from '../shopcart/shopcart.vue'
   import BScroll from 'better-scroll'
   const ERR_OK = 0
 
@@ -69,6 +71,9 @@
         }
       })
       this.cssMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee']
+    },
+    components: {
+      shopcart
     },
     methods: {
       _initScroll () {
