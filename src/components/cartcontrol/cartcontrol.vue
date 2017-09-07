@@ -4,9 +4,11 @@
       <span class="icon-add_circle"></span>
     </div>
     <div class="num" v-show="food.count">{{food.count}}</div>
-    <div class="cart-remove" v-show="food.count" @click="removeFood">
-      <span class="icon-remove_circle_outline"></span>
-    </div>
+    <transition name="roll">
+      <div class="cart-remove" v-show="food.count" @click="removeFood">
+        <span class="icon-remove_circle_outline"></span>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -36,6 +38,12 @@
   .control-wrap
     height: 30px
     font-size: 0
+    .roll-enter-active, .roll-leave-active
+      transition: all 0.5s linear
+      transform: translate3d(0, 0, 0) rotate(0)
+    .roll-enter, .roll-leave-to
+      opacity: 0
+      transform: translate3d(24px, 0, 0) rotate(180deg)
     .cart-remove, .cart-add
       float: right
       width: 24px
