@@ -1,6 +1,6 @@
 <template>
   <div class="control-wrap">
-    <div class="cart-add" @click="addFood">
+    <div class="cart-add" @click="addFood($event)">
       <span class="icon-add_circle"></span>
     </div>
     <div class="num" v-show="food.count">{{food.count}}</div>
@@ -19,13 +19,24 @@
     props: {
       food: Object
     },
+    data () {
+      return {
+        pos: {
+          x: 1,
+          y: 3
+        }
+      }
+    },
     methods: {
-      addFood () {
+      addFood (event) {
         if (this.food.count !== undefined) {
           this.food.count++
         } else {
           Vue.set(this.food, 'count', 1)
         }
+        this.pos.x = Math.abs(event.offsetX)
+        this.pos.y = Math.abs(event.offsetY)
+        this.$store.dispatch('setPos', this.pos)
       },
       removeFood () {
         this.food.count--
