@@ -5,12 +5,12 @@
         <span class="icon-shopping_cart"></span>
         <span class="num-icon" v-show="totalCount>0">{{selectFoods.length}}</span>
       </div>
-      <div class="price" :class="{'heiglight':totalCount>0}">
-        ￥{{totalCount > 0 ? totalCount : 0}}
+      <div class="price" :class="{'heiglight':totalPrice>0}">
+        ￥{{totalPrice > 0 ? totalPrice : 0}}
       </div>
       <div class="dispatch">另需配送费￥{{deliveryPrice}}元</div>
     </div>
-    <div class="shopcart-right">{{payDescription}}</div>
+    <div class="shopcart-right" :class="{enough:totalPrice>=minPrice}">{{payDescription}}</div>
   </div>
 </template>
 
@@ -20,9 +20,9 @@
     computed: {
       totalPrice () {
         let price = 0
-//        this.selectFoods.forEach((food) => {
-//          price += food.price * food.count
-//        })
+        this.selectFoods.forEach((food) => {
+          price += food.price * food.count
+        })
         return price
       },
       totalCount () {
@@ -114,4 +114,7 @@
       font-size: 12px
       font-weight: 700
       line-height: 48px
+      &.enough
+        color: #fff
+        background: #00b43c
 </style>
