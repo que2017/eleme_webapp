@@ -2,7 +2,8 @@
   <div class="goods-wrap">
     <div class="menu-wrap" ref="menuWrap">
       <ul>
-        <li v-for="item,index in goods" class="menu-item border-1px" :class="{'current':nowIndex === index}" @click="menuTouch(index)">
+        <li v-for="item,index in goods" class="menu-item border-1px" :class="{'current':nowIndex === index}"
+            @click="menuTouch(index)">
           <span class="text">
             <span v-show="item.type>=0" class="icon" :class="cssMap[item.type]"></span>{{item.name}}
           </span>
@@ -15,7 +16,7 @@
           <h2 class="title">{{cate.name}}</h2>
           <ul>
             <li v-for="item in cate.foods" class="food-item border-1px">
-              <div class="icon"><img :src="item.icon" width="100%" height="100%" /></div>
+              <div class="icon"><img :src="item.icon" width="100%" height="100%"/></div>
               <div class="info">
                 <h3 class="item-name">{{item.name}}</h3>
                 <h4 class="disc" v-show="item.description">{{item.description}}</h4>
@@ -28,7 +29,9 @@
                   <span v-show="item.oldPrice" class="old-price">{{item.oldPrice}}</span>
                 </div>
               </div>
-              <div class="select"></div>
+              <div class="select">
+                <cartcontrol :food="item"></cartcontrol>
+              </div>
             </li>
           </ul>
         </li>
@@ -40,7 +43,9 @@
 
 <script type="text/ecmascript-6">
   import shopcart from '../shopcart/shopcart.vue'
+  import cartcontrol from '../cartcontrol/cartcontrol.vue'
   import BScroll from 'better-scroll'
+
   const ERR_OK = 0
 
   export default {
@@ -61,7 +66,15 @@
         }
       },
       selectFoods () {
-          return [1]
+        let foods = []
+        this.goods.forEach((goodsItem) => {
+          goodsItem.foods.forEach((food) => {
+            if (food.count) {
+              foods.push(food)
+            }
+          })
+        })
+        return foods
       }
     },
     created () {
@@ -77,7 +90,8 @@
       this.cssMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee']
     },
     components: {
-      shopcart
+      shopcart,
+      cartcontrol
     },
     methods: {
       _initScroll () {
@@ -128,7 +142,7 @@
         height: 54px
         width: 56px
         padding: 0 12px
-        border-1px(rgba(7,17,27,0.1))
+        border-1px(rgba(7, 17, 27, 0.1))
         background: #f3f5f7
         font-weight: 200
         &.current
@@ -169,13 +183,14 @@
           padding-left: 12px
           font-size: 12px
           line-height: 26px
-          color: rgb(147,153,159)
+          color: rgb(147, 153, 159)
           background-color: #f3f5f7
         .food-item
+          position: relative
           display: flex
           margin-left: 18px
           padding: 18px 0
-          border-1px(rgba(7,17,27,0.1))
+          border-1px(rgba(7, 17, 27, 0.1))
           &:last-child
             border-none()
           .icon
@@ -187,18 +202,18 @@
             margin-left: 10px
             .item-name
               padding-top: 2px
-              color: rgb(7,17,27)
+              color: rgb(7, 17, 27)
               font-size: 14px
               line-height: 14px
             .disc
               padding-top: 8px
-              color: rgb(147,153,159)
+              color: rgb(147, 153, 159)
               font-size: 10px
               line-height: 10px
             .sell-rating
               font-size: 0
               padding-top: 8px
-              color: rgb(147,153,159)
+              color: rgb(147, 153, 159)
               .sell
                 display: inline-block
                 font-size: 10px
@@ -218,7 +233,7 @@
                 text-align: top
                 font-size: 14px
                 font-weight: 700
-                color: rgb(240,20,20)
+                color: rgb(240, 20, 20)
                 &:before
                   content: '￥'
                   display: inline-block
@@ -234,11 +249,15 @@
                 margin-left: 8px
                 font-size: 10px
                 font-weight: 700
-                color: rgb(147,153,159)
+                color: rgb(147, 153, 159)
                 &:before
                   content: '￥'
                   display: inline-block
                   text-decoration: line-through
                   font-size: 10px
                   font-weight: normal
+          .select
+            position: absolute
+            bottom: 18px
+            right: 18px
 </style>
