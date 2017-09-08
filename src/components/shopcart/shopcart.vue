@@ -11,7 +11,11 @@
       <div class="dispatch">另需配送费￥{{deliveryPrice}}元</div>
     </div>
     <div class="shopcart-right" :class="{enough:totalPrice>=minPrice}">{{payDescription}}</div>
-    <transition v-on:before-enter="beforeEnter">
+    <transition name="drop"
+                v-on:before-enter="beforeEnter"
+                v-on:enter="ballEnter"
+                v-on:after-enter="afterEnter"
+    >
       <div class="ball" v-if="this.$store.state.mousePos.click"></div>
     </transition>
   </div>
@@ -29,8 +33,24 @@
       }
     },
     methods: {
-      beforeEnter (el) {
-        console.log(el)
+      beforeEnter (elem) {
+        this.pos = this.$store.state.mousePos.pos
+        let winH = window.innerHeight
+        elem.style.top = `${-winH + this.pos.y + 48}px`
+        elem.style.marginLeft = `${this.pos.x - 32}px`
+      },
+      ballEnter (elem) {
+        this.pos = this.$store.state.mousePos.pos
+        let winH = window.innerHeight
+        elem.style.marginLeft = 0
+        elem.style.webkitTransform = `translate3d(0,${winH - this.pos.y - 48}px,0)`
+        elem.style.transform = `translate3d(0,${winH - this.pos.y - 48}px,0)`
+      },
+      afterEnter (elem) {
+        elem.style.top = 0
+        elem.marginLeft = 0
+        elem.style.display = 'none'
+        this.$store.state.mousePos.click = false
       }
     },
     computed: {
@@ -71,6 +91,8 @@
     width: 100%
     height: 48px
     color: rgba(255, 255, 255, 0.4)
+    .drop-enter-active
+      transition: transform 0.4s cubic-bezier(.43, -0.43, .82, .65), margin-left 0.4s linear
     .ball
       position: absolute
       top: 0
