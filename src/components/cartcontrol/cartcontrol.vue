@@ -36,7 +36,10 @@
         }
         this.pos.x = Math.abs(event.offsetX)
         this.pos.y = Math.abs(event.offsetY)
-        this.$store.dispatch('setClick', true)
+        this.$store.dispatch('setClick', false)
+        this.$nextTick(() => {
+          this.$store.dispatch('setClick', true)
+        })
         this.$store.dispatch('setPos', this.pos)
       },
       removeFood () {

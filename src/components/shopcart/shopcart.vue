@@ -16,8 +16,9 @@
                 v-on:enter="ballEnter"
                 v-on:after-enter="afterEnter"
     >
-      <div class="ball" v-if="this.$store.state.mousePos.click"></div>
+      <div v-if="this.$store.state.mousePos.click"></div>
     </transition>
+    <div class="ball-wrap"></div>
   </div>
 </template>
 
@@ -33,24 +34,35 @@
       }
     },
     methods: {
-      beforeEnter (elem) {
+      beforeEnter () {
+        let ballWrap = document.querySelector('.ball-wrap')
+        let ball = document.createElement('div')
+        ball.className = 'ball'
         this.pos = this.$store.state.mousePos.pos
-        let winH = window.innerHeight
-        elem.style.top = `${-winH + this.pos.y + 48}px`
-        elem.style.marginLeft = `${this.pos.x - 32}px`
+        ball.style.top = `${this.pos.y}px`
+        ball.style.marginLeft = `${this.pos.x - 48}px`
+        ballWrap.appendChild(ball)
       },
-      ballEnter (elem) {
-        this.pos = this.$store.state.mousePos.pos
-        let winH = window.innerHeight
-        elem.style.marginLeft = 0
-        elem.style.webkitTransform = `translate3d(0,${winH - this.pos.y - 48}px,0)`
-        elem.style.transform = `translate3d(0,${winH - this.pos.y - 48}px,0)`
+      ballEnter () {
+        this.$nextTick(() => {
+          let winH = window.innerHeight
+          let ball = document.querySelector('.ball-wrap').querySelectorAll('.ball')
+          for (let i = 0; i < ball.length; i++) {
+            ball[i].style.marginLeft = '0px'
+            ball[i].style.webkitTransform = `translate3d(0,${winH - this.pos.y - 48}px,0)`
+            ball[i].style.transform = `translate3d(0,${winH - this.pos.y - 48}px,0)`
+            ball[i].addEventListener('webkitTransitionEnd', function () {
+              this.style.display = 'none'
+            })
+            ball[i].addEventListener('transitionend', function () {
+              this.style.display = 'none'
+            })
+          }
+        })
       },
-      afterEnter (elem) {
-        elem.style.top = 0
-        elem.marginLeft = 0
-        elem.style.display = 'none'
-        this.$store.state.mousePos.click = false
+      afterEnter () {
+        document.querySelector('.ball-wrap').innerHTML = ''
+        this.$store.dispatch('setClick', false)
       }
     },
     computed: {
@@ -92,15 +104,18 @@
     height: 48px
     color: rgba(255, 255, 255, 0.4)
     .drop-enter-active
-      transition: transform 0.4s cubic-bezier(.43, -0.43, .82, .65), margin-left 0.4s linear
-    .ball
-      position: absolute
-      top: 0
-      left: 32px
-      width: 16px
-      height: 16px
-      border-radius: 50%
-      background: rgb(0, 160, 220)
+      transition: all 0.4s
+    .ball-wrap
+      position: relative
+      .ball
+        position: fixed
+        bottom: 48px
+        left: 32px
+        width: 16px
+        height: 16px
+        border-radius: 50%
+        background: rgb(0, 160, 220)
+        transition: transform 0.4s cubic-bezier(0.43, -0.43, 0.82, 0.65), margin-left 0.4s linear
     .shopcart-left
       flex: 1
       height: 100%
