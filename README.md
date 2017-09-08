@@ -30,13 +30,13 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
 │   ├── index.js                # main project 配置
 │   └── ...
 ├── resource/
-│   └── _MACOSX/                
-│   │   └── resource/           
-│   │       ├── 标注/           
-│   │       ├── img/            
-|   |       └── ._.DS_Store     
+│   └── _MACOSX/
+│   │   └── resource/
+│   │       ├── 标注/
+│   │       ├── img/
+|   |       └── ._.DS_Store
 │   └── resource/               # 项目相关的图片
-│       ├── 标注/               
+│       ├── 标注/
 │       ├── img/                # 项目图片
 │       ├── PSD/                # PSD图
 │       └── SVG/                # SVG图
@@ -48,7 +48,7 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
 |   |   ├── header/             # header components
 |   |   ├── ratings/            # ratings components
 │   │   └── seller/             # seller components
-│   └── common/                 
+│   └── common/
 |   |   ├── fonts/              # 字体图标库
 │   |   └── stylus/             # 组件样式
 │   └── router/                 # 路由配置
@@ -66,3 +66,9 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
 
 ### 1. stylus文件引入报错
 原因是base.style文件空格错误，在vue2.0中不需要在webpack.base.config.js文件中写入配置css和styl文件的loader代码，该配置在utils.js文件中已写好
+### 2. vue过渡js钩子函数配合css实现
+vue过渡的js钩子函数可以自己实现过渡，一般要引入其他动画插件，动画插件在enter函数调用。如果要用js钩子函数配合css实现，写法如下：
+（1）在beforeEnter函数设置过渡元素的初始状态
+（2）在enter函数设置过渡元素的最终状态，当执行enter函数时触发transition
+（3）在css的.v-enter-active 设置transition属性
+
