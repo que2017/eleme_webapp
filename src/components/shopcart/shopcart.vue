@@ -24,9 +24,15 @@
         <div class="title">购物车</div>
         <div class="clear">清空</div>
       </div>
-      <ul>
+      <ul class="foods-wrap">
         <li v-for="item in selectFoods" class="food-item">
           <div class="name">{{item.name}}</div>
+          <div class="info">
+            <div class="price">{{item.price}}</div>
+            <div class="foods-num">
+              <cartcontrol :food="item"></cartcontrol>
+            </div>
+          </div>
         </li>
       </ul>
     </div>
@@ -34,6 +40,8 @@
 </template>
 
 <script>
+  import cartcontrol from '../cartcontrol/cartcontrol.vue'
+
   export default {
     props: ['selectFoods', 'deliveryPrice', 'minPrice'],
     data () {
@@ -100,11 +108,15 @@
           return `去结算`
         }
       }
+    },
+    components: {
+      cartcontrol
     }
   }
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
+  @import "../../common/stylus/minix.styl"
 
   .shopcart-wrap
     position: fixed
@@ -128,6 +140,8 @@
         background: rgb(0, 160, 220)
         transition: transform 0.4s cubic-bezier(0.43, -0.43, 0.82, 0.65), margin-left 0.4s linear
     .shopcart-left
+      position: relative
+      z-index: 10
       flex: 1
       height: 100%
       background: #141d27
@@ -178,6 +192,8 @@
         font-size: 12px
         line-height: 24px
     .shopcart-right
+      position: relative
+      z-index: 10
       flex: 0 0 105px
       height: 48px
       width: 105px
@@ -191,11 +207,10 @@
         background: #00b43c
     .shopcart-foods-hide
       position: absolute
-      top: -257px
+      z-index: 9
+      top: 0
       left: 0
       width: 100%
-      max-height: 305px
-      overflow: auto
       .hide-top
         width: 100%
         height: 40px
@@ -214,6 +229,48 @@
           height: 40px
           margin-right: 18px
           font-size: 12px
-          color: rgb(0,160,220)
+          color: rgb(0, 160, 220)
           line-height: 40px
+      .foods-wrap
+        max-height: 217px
+        overflow: auto
+        .food-item
+          display: block
+          width: 100%
+          height: 48px
+          border-1px(rgba(7, 17, 27, 0.1))
+          background: #fff
+          .name
+            float: left
+            height: 48px
+            margin-left: 18px
+            font-size: 14px
+            color: rgb(7, 17, 27)
+            line-height: 48px
+          .info
+            float: right
+            height: 48px
+            margin-right: 18px
+            font-size: 0
+            .price
+              display: inline-block
+              vertical-align: middle
+              height: 48px
+              color: rgb(240, 20, 20)
+              font-size: 14px
+              font-weight: 700
+              line-height: 48px
+              &:before
+                content: '￥'
+                display: inline-block
+                height: 100%
+                text-align: bottom
+                font-size: 10px
+                font-weight: normal
+            .foods-num
+              display: inline-block
+              vertical-align: middle
+              height: 30px
+              padding: 9px 0
+              margin-left: 12px
 </style>
