@@ -11,12 +11,28 @@
       <div class="dispatch">另需配送费￥{{deliveryPrice}}元</div>
     </div>
     <div class="shopcart-right" :class="{enough:totalPrice>=minPrice}">{{payDescription}}</div>
+    <transition v-on:before-enter="beforeEnter">
+      <div class="ball" v-if="this.$store.state.mousePos.click"></div>
+    </transition>
   </div>
 </template>
 
 <script>
   export default {
     props: ['selectFoods', 'deliveryPrice', 'minPrice'],
+    data () {
+      return {
+        pos: {
+          x: 0,
+          y: 0
+        }
+      }
+    },
+    methods: {
+      beforeEnter (el) {
+        console.log(el)
+      }
+    },
     computed: {
       totalPrice () {
         let price = 0
@@ -55,6 +71,14 @@
     width: 100%
     height: 48px
     color: rgba(255, 255, 255, 0.4)
+    .ball
+      position: absolute
+      top: 0
+      left: 32px
+      width: 16px
+      height: 16px
+      border-radius: 50%
+      background: rgb(0, 160, 220)
     .shopcart-left
       flex: 1
       height: 100%
