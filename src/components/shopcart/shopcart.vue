@@ -19,6 +19,17 @@
       <div v-if="this.$store.state.mousePos.click"></div>
     </transition>
     <div class="ball-wrap"></div>
+    <div class="shopcart-foods-hide">
+      <div class="hide-top">
+        <div class="title">购物车</div>
+        <div class="clear">清空</div>
+      </div>
+      <ul>
+        <li v-for="item in selectFoods" class="food-item">
+          <div class="name">{{item.name}}</div>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -178,4 +189,31 @@
       &.enough
         color: #fff
         background: #00b43c
+    .shopcart-foods-hide
+      position: absolute
+      top: -257px
+      left: 0
+      width: 100%
+      max-height: 305px
+      overflow: auto
+      .hide-top
+        width: 100%
+        height: 40px
+        background: #f3f5f7
+        border-bottom: 1px solid rgba(7, 17, 27, 0.1)
+        .title
+          float: left
+          height: 40px
+          margin-left: 18px
+          font-size: 14px
+          font-weight: 200
+          color: rgb(7, 17, 27)
+          line-height: 40px
+        .clear
+          float: right
+          height: 40px
+          margin-right: 18px
+          font-size: 12px
+          color: rgb(0,160,220)
+          line-height: 40px
 </style>
