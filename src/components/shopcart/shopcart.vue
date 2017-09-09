@@ -19,11 +19,14 @@
       <div v-if="this.$store.state.mousePos.click"></div>
     </transition>
     <div class="ball-wrap"></div>
+    <transition name="covertrans">
+      <div class="cover" v-show="onOff&&selectFoods.length" @click="toggle"></div>
+    </transition>
     <transition name="foodlist">
-      <div class="shopcart-foods-hide" v-show="onOff">
+      <div class="shopcart-foods-hide" v-show="onOff&&selectFoods.length">
         <div class="hide-top">
           <div class="title">购物车</div>
-          <div class="clear">清空</div>
+          <div class="clear" @click="empty">清空</div>
         </div>
         <ul class="foods-wrap">
           <li v-for="item in selectFoods" class="food-item">
@@ -88,6 +91,11 @@
       },
       toggle () {
         this.onOff = !this.onOff
+      },
+      empty () {
+        this.selectFoods.forEach((food) => {
+          food.count = 0
+        })
       }
     },
     computed: {
@@ -211,6 +219,18 @@
       &.enough
         color: #fff
         background: #00b43c
+    .covertrans-enter-active, .covertrans-leave-active
+      transition: all 0.5s linear
+    .covertrans-enter, .covertrans-leave-to
+      opacity: 0
+    .cover
+      position: fixed
+      top: 0
+      left: 0
+      width: 100%
+      height: 100%
+      background: rgba(7, 17, 27, 0.6)
+      backdropfilter: blur(10px)
     .foodlist-enter-active, .foodlist-leave-active
       transition: all 0.5s linear
       transform: translate3d(0, 0, 0)
