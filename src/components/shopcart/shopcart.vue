@@ -64,8 +64,8 @@
         let ball = document.createElement('div')
         ball.className = 'ball'
         this.pos = this.$store.state.mousePos.pos
-        ball.style.top = `${this.pos.y}px`
-        ball.style.marginLeft = `${this.pos.x - 48}px`
+        ball.style.top = `${this.pos.y - 12}px`
+        ball.style.marginLeft = `${this.pos.x - 64}px`
         ballWrap.appendChild(ball)
       },
       ballEnter () {
@@ -96,6 +96,7 @@
         this.selectFoods.forEach((food) => {
           food.count = 0
         })
+        this.onOff = false
       }
     },
     computed: {
@@ -146,6 +147,7 @@
       position: relative
       .ball
         position: fixed
+        z-index: 11
         bottom: 48px
         left: 32px
         width: 16px

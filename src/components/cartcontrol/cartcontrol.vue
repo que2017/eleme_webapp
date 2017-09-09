@@ -1,11 +1,11 @@
 <template>
   <div class="control-wrap">
-    <div class="cart-add" @click="addFood($event)">
+    <div class="cart-add" @touchstart="addFood($event)">
       <span class="icon-add_circle"></span>
     </div>
     <div class="num" v-show="food.count">{{food.count}}</div>
     <transition name="roll">
-      <div class="cart-remove" v-show="food.count" @click="removeFood">
+      <div class="cart-remove" v-show="food.count" @touchstart="removeFood">
         <span class="icon-remove_circle_outline"></span>
       </div>
     </transition>
@@ -34,8 +34,8 @@
         } else {
           Vue.set(this.food, 'count', 1)
         }
-        this.pos.x = Math.abs(event.offsetX)
-        this.pos.y = Math.abs(event.offsetY)
+        this.pos.x = Math.abs(event.touches[0].clientX)
+        this.pos.y = Math.abs(event.touches[0].clientY)
         this.$store.dispatch('setClick', false)
         this.$nextTick(() => {
           this.$store.dispatch('setClick', true)
