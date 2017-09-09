@@ -1,6 +1,6 @@
 <template>
   <div class="shopcart-wrap">
-    <div class="shopcart-left clearfix">
+    <div class="shopcart-left clearfix" @click="toggle">
       <div class="cart" :class="{'heiglight':totalCount>0}">
         <span class="icon-shopping_cart"></span>
         <span class="num-icon" v-show="totalCount>0">{{selectFoods.length}}</span>
@@ -19,23 +19,25 @@
       <div v-if="this.$store.state.mousePos.click"></div>
     </transition>
     <div class="ball-wrap"></div>
-    <div class="shopcart-foods-hide">
-      <div class="hide-top">
-        <div class="title">购物车</div>
-        <div class="clear">清空</div>
-      </div>
-      <ul class="foods-wrap">
-        <li v-for="item in selectFoods" class="food-item">
-          <div class="name">{{item.name}}</div>
-          <div class="info">
-            <div class="price">{{item.price}}</div>
-            <div class="foods-num">
-              <cartcontrol :food="item"></cartcontrol>
+    <transition name="foodlist">
+      <div class="shopcart-foods-hide" v-show="onOff">
+        <div class="hide-top">
+          <div class="title">购物车</div>
+          <div class="clear">清空</div>
+        </div>
+        <ul class="foods-wrap">
+          <li v-for="item in selectFoods" class="food-item">
+            <div class="name">{{item.name}}</div>
+            <div class="info">
+              <div class="price">{{item.price}}</div>
+              <div class="foods-num">
+                <cartcontrol :food="item"></cartcontrol>
+              </div>
             </div>
-          </div>
-        </li>
-      </ul>
-    </div>
+          </li>
+        </ul>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -49,7 +51,8 @@
         pos: {
           x: 0,
           y: 0
-        }
+        },
+        onOff: false
       }
     },
     methods: {
@@ -82,6 +85,9 @@
       afterEnter () {
         document.querySelector('.ball-wrap').innerHTML = ''
         this.$store.dispatch('setClick', false)
+      },
+      toggle () {
+        this.onOff = !this.onOff
       }
     },
     computed: {
@@ -205,10 +211,15 @@
       &.enough
         color: #fff
         background: #00b43c
+    .foodlist-enter-active, .foodlist-leave-active
+      transition: all 0.5s linear
+      transform: translate3d(0, 0, 0)
+    .foodlist-enter, .foodlist-leave-to
+      transform: translate3d(0, 100%, 0)
     .shopcart-foods-hide
       position: absolute
       z-index: 9
-      top: 0
+      bottom: 48px
       left: 0
       width: 100%
       .hide-top
