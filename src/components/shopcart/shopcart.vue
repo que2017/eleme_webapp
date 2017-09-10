@@ -90,7 +90,11 @@
         this.$store.dispatch('setClick', false)
       },
       toggle () {
-        this.onOff = !this.onOff
+        if (this.selectFoods.length) {
+          this.onOff = !this.onOff
+        } else {
+          this.onOff = false
+        }
       },
       empty () {
         this.selectFoods.forEach((food) => {
