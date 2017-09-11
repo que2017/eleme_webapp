@@ -28,17 +28,19 @@
           <div class="title">购物车</div>
           <div class="clear" @click="empty">清空</div>
         </div>
-        <ul class="foods-wrap">
-          <li v-for="item in selectFoods" class="food-item">
-            <div class="name">{{item.name}}</div>
-            <div class="info">
-              <div class="price">{{item.price}}</div>
-              <div class="foods-num">
-                <cartcontrol :food="item"></cartcontrol>
+        <div class="foods-wrapper" ref="foodsWrapper">
+          <ul>
+            <li v-for="item in selectFoods" class="food-item">
+              <div class="name">{{item.name}}</div>
+              <div class="info">
+                <div class="price">{{item.price}}</div>
+                <div class="foods-num">
+                  <cartcontrol :food="item"></cartcontrol>
+                </div>
               </div>
-            </div>
-          </li>
-        </ul>
+            </li>
+          </ul>
+        </div>
       </div>
     </transition>
   </div>
@@ -46,6 +48,7 @@
 
 <script>
   import cartcontrol from '../cartcontrol/cartcontrol.vue'
+  import BScroll from 'better-scroll'
 
   export default {
     props: ['selectFoods', 'deliveryPrice', 'minPrice'],
@@ -92,6 +95,15 @@
       toggle () {
         if (this.selectFoods.length) {
           this.onOff = !this.onOff
+          this.$nextTick(() => {
+            if (this.scroll) {
+              this.scroll.refresh()
+            } else {
+              this.scroll = new BScroll(this.$refs.foodsWrapper, {
+                click: true
+              })
+            }
+          })
         } else {
           this.onOff = false
         }
@@ -248,6 +260,7 @@
       bottom: 48px
       left: 0
       width: 100%
+      background: rgb(7, 17, 27)
       .hide-top
         width: 100%
         height: 40px
@@ -268,9 +281,9 @@
           font-size: 12px
           color: rgb(0, 160, 220)
           line-height: 40px
-      .foods-wrap
+      .foods-wrapper
         max-height: 217px
-        overflow: auto
+        overflow: hidden
         .food-item
           display: block
           width: 100%
