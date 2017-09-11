@@ -33,6 +33,7 @@
                 <cartcontrol :food="item"></cartcontrol>
               </div>
             </li>
+            <food v-show="true"></food>
           </ul>
         </li>
       </ul>
@@ -42,6 +43,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import food from '../food/food.vue'
   import shopcart from '../shopcart/shopcart.vue'
   import cartcontrol from '../cartcontrol/cartcontrol.vue'
   import BScroll from 'better-scroll'
@@ -90,6 +92,7 @@
       this.cssMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee']
     },
     components: {
+      food,
       shopcart,
       cartcontrol
     },
