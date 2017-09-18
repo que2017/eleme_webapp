@@ -37,7 +37,7 @@
         </li>
       </ul>
     </div>
-    <food v-show="showDetail" :food="foodDetail"></food>
+    <food v-show="showDetail" :food="foodDetail" @close="closeFoodDetail"></food>
     <shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice"
               :min-price="seller.minPrice"></shopcart>
   </div>
@@ -130,6 +130,9 @@
       showFoodDetail (fooditem) {
         this.foodDetail = fooditem
         this.showDetail = true
+      },
+      closeFoodDetail () {
+        this.showDetail = false
       }
     }
   }
