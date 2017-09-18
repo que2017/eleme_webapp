@@ -15,7 +15,7 @@
         <li v-for="cate in goods" class="food-cate food-hook">
           <h2 class="title">{{cate.name}}</h2>
           <ul>
-            <li v-for="item in cate.foods" class="food-item border-1px">
+            <li v-for="item in cate.foods" class="food-item border-1px" @click="showFoodDetail(item)">
               <div class="icon"><img :src="item.icon" width="100%" height="100%"/></div>
               <div class="info">
                 <h3 class="item-name">{{item.name}}</h3>
@@ -33,12 +33,13 @@
                 <cartcontrol :food="item"></cartcontrol>
               </div>
             </li>
-            <food v-show="true"></food>
           </ul>
         </li>
       </ul>
     </div>
-    <shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
+    <food v-show="showDetail" :food="foodDetail"></food>
+    <shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice"
+              :min-price="seller.minPrice"></shopcart>
   </div>
 </template>
 
@@ -56,6 +57,8 @@
       return {
         goods: [],
         height: [],
+        foodDetail: {},
+        showDetail: false,
         scrollY: 0
       }
     },
@@ -123,6 +126,10 @@
         let foodsList = this.$refs.foodsWrap.querySelectorAll('.food-hook')
         let elem = foodsList[index]
         this.foodsScroll.scrollToElement(elem, 300)
+      },
+      showFoodDetail (fooditem) {
+        this.foodDetail = fooditem
+        this.showDetail = true
       }
     }
   }
