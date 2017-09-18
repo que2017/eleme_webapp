@@ -16,7 +16,10 @@
             <span class="now-price">{{food.price}}</span>
             <span v-show="food.oldPrice" class="old-price">{{food.oldPrice}}</span>
           </div>
-          <div class="addfood">加入购物车</div>
+          <div v-show="!food.count" class="addfood" @touchstart="addFood($event)">加入购物车</div>
+          <div class="cart-control">
+            <cartcontrol v-show="food.count" :food="food"></cartcontrol>
+          </div>
         </div>
       </div>
     </div>
@@ -24,16 +27,44 @@
 </template>
 
 <script>
+  import cartcontrol from '../cartcontrol/cartcontrol.vue'
+  import Vue from 'vue'
+
   export default {
     props: {
       food: Object
     },
+    data () {
+      return {
+        pos: {
+          x: 0,
+          y: 0
+        }
+      }
+    },
     methods: {
       closeDetail () {
         this.$emit('close')
+      },
+      addFood (event) {
+        if (this.food.count !== undefined) {
+          this.food.count++
+        } else {
+          Vue.set(this.food, 'count', 1)
+        }
+        this.pos.x = Math.abs(event.touches[0].clientX)
+        this.pos.y = Math.abs(event.touches[0].clientY)
+        this.$store.dispatch('setClick', false)
+        this.$nextTick(() => {
+          this.$store.dispatch('setClick', true)
+        })
+        this.$store.dispatch('setPos', this.pos)
       }
     },
     created () {
+    },
+    components: {
+      cartcontrol
     }
   }
 </script>
@@ -136,4 +167,6 @@
           text-align: center
           color: #fff
           background: rgb(0, 160, 220)
+        .cart-control
+          float: right
 </style>

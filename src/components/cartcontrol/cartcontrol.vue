@@ -1,11 +1,11 @@
 <template>
   <div class="control-wrap">
-    <div class="cart-add" @touchstart="addFood($event)">
+    <div class="cart-add" @touchstart.stop="addFood($event)">
       <span class="icon-add_circle"></span>
     </div>
     <div class="num" v-show="food.count">{{food.count}}</div>
     <transition name="roll">
-      <div class="cart-remove" v-show="food.count" @touchstart="removeFood">
+      <div class="cart-remove" v-show="food.count" @touchstart.stop="removeFood">
         <span class="icon-remove_circle_outline"></span>
       </div>
     </transition>
