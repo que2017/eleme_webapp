@@ -1,25 +1,36 @@
 <template>
   <transition name="fly-in">
-    <div class="cover">
-      <div class="close" @click="closeDetail">
-        <span class="icon-close"></span>
-      </div>
-      <div class="title-img"><img :src="food.image" width="100%" height="100%"/></div>
-      <div class="food-info">
-        <h2 class="title">{{food.name}}</h2>
-        <div class="sell-rating">
-          <span class="sell">月售{{food.sellCount}}份</span>
-          <span class="rating">好评率{{food.rating}}%</span>
+    <div class="cover" ref="cover">
+      <div>
+        <div class="close" @click="closeDetail">
+          <span class="icon-close"></span>
         </div>
-        <div class="price-addfood">
-          <div class="price">
-            <span class="now-price">{{food.price}}</span>
-            <span v-show="food.oldPrice" class="old-price">{{food.oldPrice}}</span>
+        <div class="title-img"><img :src="food.image" width="100%" height="100%"/></div>
+        <div class="food-info">
+          <h2 class="title">{{food.name}}</h2>
+          <div class="sell-rating">
+            <span class="sell">月售{{food.sellCount}}份</span>
+            <span class="rating">好评率{{food.rating}}%</span>
           </div>
-          <div v-show="!food.count" class="addfood" @touchstart="addFood($event)">加入购物车</div>
-          <div class="cart-control">
-            <cartcontrol v-show="food.count" :food="food"></cartcontrol>
+          <div class="price-addfood">
+            <div class="price">
+              <span class="now-price">{{food.price}}</span>
+              <span v-show="food.oldPrice" class="old-price">{{food.oldPrice}}</span>
+            </div>
+            <div v-show="!food.count" class="addfood" @touchstart="addFood($event)">加入购物车</div>
+            <div class="cart-control">
+              <cartcontrol v-show="food.count" :food="food"></cartcontrol>
+            </div>
           </div>
+        </div>
+        <div v-show="food.info" class="boundary"></div>
+        <div v-show="food.info" class="food-intro">
+          <h3 class="intro-title">商品介绍</h3>
+          <p class="intro">{{food.info}}</p>
+        </div>
+        <div class="boundary"></div>
+        <div class="food-rating">
+          <h3 class="rating-title">商品评论</h3>
         </div>
       </div>
     </div>
@@ -29,6 +40,7 @@
 <script>
   import cartcontrol from '../cartcontrol/cartcontrol.vue'
   import Vue from 'vue'
+  import BScroll from 'better-scroll'
 
   export default {
     props: {
@@ -43,6 +55,11 @@
       }
     },
     methods: {
+      _initScroll () {
+        this.cover = new BScroll(this.$refs.cover, {
+          click: true
+        })
+      },
       closeDetail () {
         this.$emit('close')
       },
@@ -62,6 +79,9 @@
       }
     },
     created () {
+      this.$nextTick(() => {
+        this._initScroll()
+      })
     },
     components: {
       cartcontrol
@@ -169,4 +189,22 @@
           background: rgb(0, 160, 220)
         .cart-control
           float: right
+    .boundary
+      width: 100%
+      height: 16px
+      border-top: 1px solid rgba(7, 17, 27, 0.1)
+      border-bottom: 1px solid rgba(7, 17, 27, 0.1)
+      background: #f3f5f7
+    .food-intro, .food-rating
+      padding: 18px
+      .intro-title, .rating-title
+        margin-bottom: 6px
+        font-size: 16px
+        font-weight: 400
+      .intro
+        padding-left: 8px
+        font-size: 12px
+        font-weight: 200
+        color: rgb(77, 85, 93)
+        line-height: 24px
 </style>
