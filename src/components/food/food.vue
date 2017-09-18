@@ -5,7 +5,20 @@
         <span class="icon-close"></span>
       </div>
       <div class="title-img"><img :src="food.image" width="100%" height="100%"/></div>
-      <div class="food-info"></div>
+      <div class="food-info">
+        <h2 class="title">{{food.name}}</h2>
+        <div class="sell-rating">
+          <span class="sell">月售{{food.sellCount}}份</span>
+          <span class="rating">好评率{{food.rating}}%</span>
+        </div>
+        <div class="price-addfood">
+          <div class="price">
+            <span class="now-price">{{food.price}}</span>
+            <span v-show="food.oldPrice" class="old-price">{{food.oldPrice}}</span>
+          </div>
+          <div class="addfood">加入购物车</div>
+        </div>
+      </div>
     </div>
   </transition>
 </template>
@@ -29,8 +42,10 @@
   .fly-in-enter-active, .fly-in-leave-active
     transition: all 0.4s linear
     transform: translate3d(0, 0, 0)
+
   .fly-in-enter, .fly-in-leave-to
     transform: translate3d(100%, 0, 0)
+
   .cover
     position: fixed
     top: 0
@@ -54,6 +69,71 @@
       width: 100%
       height: 375px
     .food-info
+      box-sizing: border-box
       width: 100%
       height: 120px
+      padding: 18px
+      .title
+        height: 14px
+        font-size: 14px
+        font-weight: 700
+        line-height: 14px
+      .sell-rating
+        font-size: 0
+        padding-top: 8px
+        color: rgb(147, 153, 159)
+        .sell
+          display: inline-block
+          font-size: 10px
+          line-height: 10px
+        .rating
+          display: inline-block
+          margin-left: 12px
+          font-size: 10px
+          line-height: 10px
+      .price-addfood
+        margin-top: 18px
+        .price
+          float: left
+          height: 24px
+          font-size: 0
+          .now-price
+            display: inline-block
+            height: 24px
+            text-align: top
+            font-size: 14px
+            font-weight: 700
+            color: rgb(240, 20, 20)
+            &:before
+              content: '￥'
+              display: inline-block
+              height: 100%
+              text-align: bottom
+              font-size: 10px
+              font-weight: normal
+          .old-price
+            display: inline-block
+            height: 24px
+            text-align: top
+            text-decoration: line-through
+            margin-left: 8px
+            font-size: 10px
+            font-weight: 700
+            color: rgb(147, 153, 159)
+            &:before
+              content: '￥'
+              display: inline-block
+              text-decoration: line-through
+              font-size: 10px
+              font-weight: normal
+        .addfood
+          float: right
+          width: 74px
+          padding: 0 12px
+          border-radius: 12px
+          font-size: 10px
+          line-height: 24px
+          text-align: center
+          color: #fff
+          background: rgb(0, 160, 220)
 </style>
