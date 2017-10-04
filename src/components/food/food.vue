@@ -1,7 +1,7 @@
 <template>
   <transition name="fly-in">
     <div class="cover" ref="cover">
-      <div>
+      <div class="cover-wrap">
         <div class="close" @click="closeDetail">
           <span class="icon-close"></span>
         </div>
@@ -40,7 +40,7 @@
 <script>
   import cartcontrol from '../cartcontrol/cartcontrol.vue'
   import Vue from 'vue'
-  import BScroll from 'better-scroll'
+//  import BScroll from 'better-scroll'
 
   export default {
     props: {
@@ -55,11 +55,8 @@
       }
     },
     methods: {
-      _initScroll () {
-        this.cover = new BScroll(this.$refs.cover, {
-          click: true
-        })
-      },
+//      _initScroll () {
+//      },
       closeDetail () {
         this.$emit('close')
       },
@@ -79,9 +76,16 @@
       }
     },
     created () {
-      this.$nextTick(() => {
-        this._initScroll()
-      })
+//      this.$nextTick(() => {
+//        if (!this.cover) {
+//          this.cover = new BScroll(this.$refs.cover, {
+//            click: true
+//          })
+//          console.log(this.cover)
+//        } else {
+//          this.cover.refresh()
+//        }
+//      })
     },
     components: {
       cartcontrol
@@ -101,110 +105,113 @@
     position: fixed
     top: 0
     left: 0
-    bottom: 48px
     width: 100%
+    height: 100%
     background: #fff
-    .close
-      position: absolute
-      top: 10px
-      left: 10px
-      width: 32px
-      height: 32px
-      border-radius: 50%
-      color: #fff
-      text-align: center
-      line-height: 32px
-      font-size: 24px
-      background: rgba(0, 0, 0, 0.3)
-    .title-img
-      width: 100%
-      height: 375px
-    .food-info
-      box-sizing: border-box
-      width: 100%
-      height: 120px
-      padding: 18px
-      .title
-        height: 14px
-        font-size: 14px
-        font-weight: 700
-        line-height: 14px
-      .sell-rating
-        font-size: 0
-        padding-top: 8px
-        color: rgb(147, 153, 159)
-        .sell
-          display: inline-block
-          font-size: 10px
-          line-height: 10px
-        .rating
-          display: inline-block
-          margin-left: 12px
-          font-size: 10px
-          line-height: 10px
-      .price-addfood
-        margin-top: 18px
-        .price
-          float: left
-          height: 24px
+    overflow: auto
+    .cover-wrap
+      padding-bottom: 500px
+      .close
+        position: absolute
+        top: 10px
+        left: 10px
+        width: 32px
+        height: 32px
+        border-radius: 50%
+        color: #fff
+        text-align: center
+        line-height: 32px
+        font-size: 24px
+        background: rgba(0, 0, 0, 0.3)
+      .title-img
+        width: 100%
+        height: 375px
+      .food-info
+        box-sizing: border-box
+        width: 100%
+        height: 120px
+        padding: 18px
+        .title
+          height: 14px
+          font-size: 14px
+          font-weight: 700
+          line-height: 14px
+        .sell-rating
           font-size: 0
-          .now-price
+          padding-top: 8px
+          color: rgb(147, 153, 159)
+          .sell
             display: inline-block
-            height: 24px
-            text-align: top
-            font-size: 14px
-            font-weight: 700
-            color: rgb(240, 20, 20)
-            &:before
-              content: '￥'
-              display: inline-block
-              height: 100%
-              text-align: bottom
-              font-size: 10px
-              font-weight: normal
-          .old-price
-            display: inline-block
-            height: 24px
-            text-align: top
-            text-decoration: line-through
-            margin-left: 8px
             font-size: 10px
-            font-weight: 700
-            color: rgb(147, 153, 159)
-            &:before
-              content: '￥'
+            line-height: 10px
+          .rating
+            display: inline-block
+            margin-left: 12px
+            font-size: 10px
+            line-height: 10px
+        .price-addfood
+          margin-top: 18px
+          .price
+            float: left
+            height: 24px
+            font-size: 0
+            .now-price
               display: inline-block
+              height: 24px
+              text-align: top
+              font-size: 14px
+              font-weight: 700
+              color: rgb(240, 20, 20)
+              &:before
+                content: '￥'
+                display: inline-block
+                height: 100%
+                text-align: bottom
+                font-size: 10px
+                font-weight: normal
+            .old-price
+              display: inline-block
+              height: 24px
+              text-align: top
               text-decoration: line-through
+              margin-left: 8px
               font-size: 10px
-              font-weight: normal
-        .addfood
-          float: right
-          width: 74px
-          padding: 0 12px
-          border-radius: 12px
-          font-size: 10px
+              font-weight: 700
+              color: rgb(147, 153, 159)
+              &:before
+                content: '￥'
+                display: inline-block
+                text-decoration: line-through
+                font-size: 10px
+                font-weight: normal
+          .addfood
+            float: right
+            width: 74px
+            padding: 0 12px
+            border-radius: 12px
+            font-size: 10px
+            line-height: 24px
+            text-align: center
+            color: #fff
+            background: rgb(0, 160, 220)
+          .cart-control
+            float: right
+      .boundary
+        width: 100%
+        height: 16px
+        border-top: 1px solid rgba(7, 17, 27, 0.1)
+        border-bottom: 1px solid rgba(7, 17, 27, 0.1)
+        background: #f3f5f7
+      .food-intro, .food-rating
+        padding: 18px
+        .intro-title, .rating-title
+          margin-bottom: 6px
+          font-size: 16px
+          font-weight: 400
+        .intro
+          padding-left: 8px
+          font-size: 12px
+          font-weight: 200
+          color: rgb(77, 85, 93)
           line-height: 24px
-          text-align: center
-          color: #fff
-          background: rgb(0, 160, 220)
-        .cart-control
-          float: right
-    .boundary
-      width: 100%
-      height: 16px
-      border-top: 1px solid rgba(7, 17, 27, 0.1)
-      border-bottom: 1px solid rgba(7, 17, 27, 0.1)
-      background: #f3f5f7
-    .food-intro, .food-rating
-      padding: 18px
-      .intro-title, .rating-title
-        margin-bottom: 6px
-        font-size: 16px
-        font-weight: 400
-      .intro
-        padding-left: 8px
-        font-size: 12px
-        font-weight: 200
-        color: rgb(77, 85, 93)
-        line-height: 24px
 </style>
