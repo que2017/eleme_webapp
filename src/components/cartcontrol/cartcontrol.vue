@@ -1,11 +1,11 @@
 <template>
   <div class="control-wrap">
-    <div class="cart-add" @touchstart.stop="addFood($event)">
+    <div class="cart-add" @click.stop="addFood($event)">
       <span class="icon-add_circle"></span>
     </div>
     <div class="num" v-show="food.count">{{food.count}}</div>
     <transition name="roll">
-      <div class="cart-remove" v-show="food.count" @touchstart.stop="removeFood">
+      <div class="cart-remove" v-show="food.count" @click.stop="removeFood">
         <span class="icon-remove_circle_outline"></span>
       </div>
     </transition>
@@ -22,22 +22,31 @@
     data () {
       return {
         pos: {
-          x: 1,
-          y: 3
+          x: 0,
+          y: 0
         }
       }
     },
     methods: {
       addFood (event) {
+//        this.pos.x = Math.abs(event.touches[0].clientX)
+//        this.pos.y = Math.abs(event.touches[0].clientY)
+//        this.pos = this.getPosition(event.target)
+//        console.log(this.pos)
+//        console.log(document.body.scrollTop || document.documentElement.scrollTop)
+        if (event._constructed) {
+          this.pos.x = Math.abs(event.offsetX)
+          this.pos.y = Math.abs(event.offsetY)
+        } else {
+          this.pos.x = Math.abs(event.pageX)
+          this.pos.y = Math.abs(event.pageY)
+        }
+//        console.log(event)
         if (this.food.count !== undefined) {
           this.food.count++
         } else {
           Vue.set(this.food, 'count', 1)
         }
-        this.pos.x = Math.abs(event.touches[0].clientX)
-        this.pos.y = Math.abs(event.touches[0].clientY)
-//        this.pos = this.getPosition(event.target)
-//        console.log(this.pos)
         this.$store.dispatch('setClick', false)
         this.$nextTick(() => {
           this.$store.dispatch('setClick', true)
@@ -55,6 +64,10 @@
 //          y += elem.offsetTop
 //          elem = elem.offsetParent
 //        }
+//        if (this.food.count) {
+//          x -= 48
+//        }
+//        y -= document.body.scrollTop || document.documentElement.scrollTop
 //        return {
 //          x: x,
 //          y: y

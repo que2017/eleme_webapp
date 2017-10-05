@@ -17,7 +17,7 @@
               <span class="now-price">{{food.price}}</span>
               <span v-show="food.oldPrice" class="old-price">{{food.oldPrice}}</span>
             </div>
-            <div v-show="!food.count" class="addfood" @touchstart="addFood($event)">加入购物车</div>
+            <div v-show="!food.count" class="addfood" @click.stop="addFood($event)">加入购物车</div>
             <div class="cart-control">
               <cartcontrol v-show="food.count" :food="food"></cartcontrol>
             </div>
@@ -39,7 +39,7 @@
   import split from '../split/split.vue'
   import ratingselect from '../ratingselect/ratingselect.vue'
   import Vue from 'vue'
-//  import BScroll from 'better-scroll'
+  //  import BScroll from 'better-scroll'
 
   export default {
     props: {
@@ -65,13 +65,21 @@
         this.$emit('close')
       },
       addFood (event) {
+//        this.pos.x = Math.abs(event.touches[0].clientX)
+//        this.pos.y = Math.abs(event.touches[0].clientY)
+        if (event._constructed) {
+          this.pos.x = Math.abs(event.offsetX)
+          this.pos.y = Math.abs(event.offsetY)
+        } else {
+          this.pos.x = Math.abs(event.pageX)
+          this.pos.y = Math.abs(event.pageY)
+        }
+//        console.log(event)
         if (this.food.count !== undefined) {
           this.food.count++
         } else {
           Vue.set(this.food, 'count', 1)
         }
-        this.pos.x = Math.abs(event.touches[0].clientX)
-        this.pos.y = Math.abs(event.touches[0].clientY)
         this.$store.dispatch('setClick', false)
         this.$nextTick(() => {
           this.$store.dispatch('setClick', true)
