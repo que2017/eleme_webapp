@@ -10,8 +10,9 @@ export default new VueRouter({
   routes: [
     {
       path: '/',
-      name: 'Goods',
-      component: Goods
+      redirect: {
+        name: 'Goods'
+      }
     },
     {
       path: '/goods',
