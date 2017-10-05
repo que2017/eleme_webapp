@@ -36,6 +36,8 @@
         }
         this.pos.x = Math.abs(event.touches[0].clientX)
         this.pos.y = Math.abs(event.touches[0].clientY)
+//        this.pos = this.getPosition(event.target)
+//        console.log(this.pos)
         this.$store.dispatch('setClick', false)
         this.$nextTick(() => {
           this.$store.dispatch('setClick', true)
@@ -45,6 +47,19 @@
       removeFood () {
         this.food.count--
       }
+//      getPosition (elem) {
+//        let x = elem.offsetLeft
+//        let y = elem.offsetTop
+//        while (elem) {
+//          x += elem.offsetLeft
+//          y += elem.offsetTop
+//          elem = elem.offsetParent
+//        }
+//        return {
+//          x: x,
+//          y: y
+//        }
+//      }
     }
   }
 </script>
