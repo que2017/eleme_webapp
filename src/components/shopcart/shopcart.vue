@@ -61,6 +61,13 @@
         onOff: false
       }
     },
+    watch: {
+      selectFoods: function () {
+        if (!this.selectFoods.length) {
+          this.onOff = false
+        }
+      }
+    },
     methods: {
       beforeEnter () {
         let ballWrap = document.querySelector('.ball-wrap')
