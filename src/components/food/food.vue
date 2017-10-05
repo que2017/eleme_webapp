@@ -23,12 +23,12 @@
             </div>
           </div>
         </div>
-        <div v-show="food.info" class="boundary"></div>
+        <split v-show="food.info" class="boundary"></split>
         <div v-show="food.info" class="food-intro">
           <h3 class="intro-title">商品介绍</h3>
           <p class="intro">{{food.info}}</p>
         </div>
-        <div class="boundary"></div>
+        <split class="boundary"></split>
         <div class="food-rating">
           <h3 class="rating-title">商品评论</h3>
         </div>
@@ -39,6 +39,7 @@
 
 <script>
   import cartcontrol from '../cartcontrol/cartcontrol.vue'
+  import split from '../split/split.vue'
   import Vue from 'vue'
 //  import BScroll from 'better-scroll'
 
@@ -88,7 +89,8 @@
 //      })
     },
     components: {
-      cartcontrol
+      cartcontrol,
+      split
     }
   }
 </script>
@@ -196,12 +198,6 @@
             background: rgb(0, 160, 220)
           .cart-control
             float: right
-      .boundary
-        width: 100%
-        height: 16px
-        border-top: 1px solid rgba(7, 17, 27, 0.1)
-        border-bottom: 1px solid rgba(7, 17, 27, 0.1)
-        background: #f3f5f7
       .food-intro, .food-rating
         padding: 18px
         .intro-title, .rating-title
