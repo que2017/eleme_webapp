@@ -28,7 +28,7 @@
           <h3 class="intro-title">商品介绍</h3>
           <p class="intro">{{food.info}}</p>
         </div>
-        <ratingselect :describe="describe"></ratingselect>
+        <ratingselect :describe="describe" :ratings="food.ratings"></ratingselect>
       </div>
     </div>
   </transition>
