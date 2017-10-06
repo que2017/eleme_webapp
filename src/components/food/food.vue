@@ -39,7 +39,7 @@
   import split from '../split/split.vue'
   import ratingselect from '../ratingselect/ratingselect.vue'
   import Vue from 'vue'
-  //  import BScroll from 'better-scroll'
+  import BScroll from 'better-scroll'
 
   export default {
     props: {
@@ -59,8 +59,6 @@
       }
     },
     methods: {
-//      _initScroll () {
-//      },
       closeDetail () {
         this.$emit('close')
       },
@@ -87,17 +85,19 @@
         this.$store.dispatch('setPos', this.pos)
       }
     },
-    created () {
-//      this.$nextTick(() => {
-//        if (!this.cover) {
-//          this.cover = new BScroll(this.$refs.cover, {
-//            click: true
-//          })
-//          console.log(this.cover)
-//        } else {
-//          this.cover.refresh()
-//        }
-//      })
+    watch: {
+      food: function () {
+        this.$nextTick(() => {
+          if (!this.cover) {
+            this.cover = new BScroll(this.$refs.cover, {
+              click: true
+            })
+            console.log(this.cover)
+          } else {
+            this.cover.refresh()
+          }
+        })
+      }
     },
     components: {
       cartcontrol,
@@ -122,7 +122,7 @@
     width: 100%
     height: 100%
     background: #fff
-    overflow: auto
+    overflow: hidden
     .cover-wrap
       padding-bottom: 50px
       .close
