@@ -13,8 +13,7 @@
           {{seller.description}} / {{seller.deliveryTime}}分钟送达
         </div>
         <div class="support" v-if="seller.supports">
-          <span class="icon" :class="cssMap[seller.supports[0].type]"></span>
-          <span class="text">{{seller.supports[0].description}}</span>
+          <supports :type="seller.supports[0].type" :description="seller.supports[0].description" :small="true"></supports>
         </div>
       </div>
       <div v-if="seller.supports" class="sup-num" @click="showDetail">
@@ -46,8 +45,7 @@
               </div>
               <ul class="item-wrap" v-if="seller.supports">
                 <li v-for="item,index in seller.supports" class="item">
-                  <span class="icon" :class="cssMap[seller.supports[index].type]"></span>
-                  <span class="info">{{seller.supports[index].description}}</span>
+                  <supports :type="seller.supports[index].type" :description="seller.supports[index].description"></supports>
                 </li>
               </ul>
             </div>
@@ -71,6 +69,7 @@
 
 <script type="text/ecmascript-6">
   import star from '../star/star'
+  import supports from '../supports/supports.vue'
 
   export default {
     props: ['seller'],
@@ -87,11 +86,12 @@
         this.show_detail = false
       }
     },
-    created () {
-      this.cssMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee']
-    },
+//    created () {
+//      this.cssMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee']
+//    },
     components: {
-      star
+      star,
+      supports
     }
   }
 </script>
@@ -137,28 +137,6 @@
           font-size: 12px
           line-height: 12px
           margin-bottom: 10px
-        .support
-          .icon
-            display: inline-block
-            vertical-align: top
-            width: 12px
-            height: 12px
-            margin-right: 4px
-            background-size: 12px 12px
-            background-repeat: no-repeat
-            &.decrease
-              bg-image('decrease_1')
-            &.discount
-              bg-image('discount_1')
-            &.special
-              bg-image('special_1')
-            &.invoice
-              bg-image('invoice_1')
-            &.guarantee
-              bg-image('guarantee_1')
-          .text
-            line-height: 12px
-            font-size: 10px
       .sup-num
         position: absolute
         right: 12px
@@ -267,29 +245,6 @@
                 margin-bottom: 12px
               &:last-child
                 margin-bottom: 0
-              .icon
-                display: inline-block
-                vertical-align: middle
-                width: 16px
-                height: 16px
-                background-size: 16px 16px
-                background-repeat: no-repeat
-                &.decrease
-                  bg-image('decrease_2')
-                &.discount
-                  bg-image('discount_2')
-                &.special
-                  bg-image('special_2')
-                &.invoice
-                  bg-image('invoice_2')
-                &.guarantee
-                  bg-image('guarantee_2')
-              .info
-                vertical-align: middle
-                margin-left: 6px
-                font-size: 14px
-                font-weight: 200
-                line-height: 14px
             .context
               padding: 24px 12px 0 12px
               font-size: 14px
