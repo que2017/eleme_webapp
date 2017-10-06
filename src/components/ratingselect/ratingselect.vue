@@ -3,18 +3,16 @@
     <split></split>
     <div class="food-rating">
       <h3 class="rating-title">商品评论</h3>
-      <div class="rating-describe">
-        <span class="desc all" @click="showRatingsData(2)">{{describe.all}} <span
+      <div class="rating-describe" v-show="ratings&&ratings.length">
+        <span class="desc all" :class="{'active': selectType === 2}" @click="showRatingsData(2)">{{describe.all}} <span
           class="num">{{allRatings.length}}</span></span>
-        <span class="desc positive"
-              @click="showRatingsData(0)">{{describe.positive}} <span
+        <span class="desc positive" :class="{'active': selectType === 0}" @click="showRatingsData(0)">{{describe.positive}} <span
           class="num">{{positives.length}}</span></span>
-        <span class="desc negative"
-              @click="showRatingsData(1)">{{describe.negative}} <span
+        <span class="desc negative" :class="{'active-neg': selectType === 1}" @click="showRatingsData(1)">{{describe.negative}} <span
           class="num">{{negatives.length}}</span></span>
       </div>
-      <span class="only-content icon-check_circle" :class="{'on': onlyContent}"
-            @click="onlyContentRatings">只看有内容的评价</span>
+      <span class="only-content icon-check_circle" v-show="ratings&&ratings.length" :class="{'on': onlyContent}" @click="onlyContentRatings">只看有内容的评价</span>
+      <div class="no-ratings" v-show="!(ratings&&ratings.length)">暂无评论~</div>
     </div>
   </div>
 </template>
@@ -47,6 +45,10 @@
       onlyContent: {
         type: Boolean,
         default: false
+      },
+      selectType: {
+        type: Number,
+        default: 2
       }
     },
 //    data () {
@@ -189,14 +191,20 @@
           line-height: 28px
           vertical-align: 0%
       .all
-        color: #fff
-        background: rgb(0, 160, 220)
+        color: rgb(77, 85, 93)
+        background: rgba(0, 160, 220, 0.2)
       .positive
         color: rgb(77, 85, 93)
         background: rgba(0, 160, 220, 0.2)
       .negative
         color: rgb(77, 85, 93)
         background: rgba(77, 85, 93, 0.2)
+      .active
+        color: #fff
+        background: rgb(0, 160, 220)
+      .active-neg
+        color: #fff
+        background: rgb(77, 85, 93)
     .only-content
       display: block
       height: 24px
@@ -212,4 +220,9 @@
     .on
       &:before
         color: #00c850
+    .no-ratings
+      padding: 24px 0 36px 0
+      border-top: 1px solid #ccc
+      text-align: center
+      font-size: 12px
 </style>

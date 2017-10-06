@@ -28,9 +28,14 @@
           <h3 class="intro-title">商品介绍</h3>
           <p class="intro">{{food.info}}</p>
         </div>
-        <ratingselect :describe="describe" :ratings="food.ratings" :only-content="onlyContent"
-                      @changeOnlyContent="changeOnlyContent" @changeSelectType="changeSelectType"></ratingselect>
-        <ul class="ratings-wrap">
+        <ratingselect
+          :describe="describe"
+          :ratings="food.ratings"
+          :only-content="onlyContent"
+          :select-type="selectType"
+          @changeOnlyContent="changeOnlyContent"
+          @changeSelectType="changeSelectType"></ratingselect>
+        <ul class="ratings-wrap" v-show="food.ratings&&food.ratings.length">
           <li class="rating-item" v-show="needShow(item)" v-for="item in food.ratings">
             <div class="rating-info clearfix">
               <div class="time">{{item.time}}</div>
