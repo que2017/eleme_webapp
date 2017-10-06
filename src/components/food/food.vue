@@ -28,7 +28,20 @@
           <h3 class="intro-title">商品介绍</h3>
           <p class="intro">{{food.info}}</p>
         </div>
-        <ratingselect :describe="describe" :ratings="food.ratings"></ratingselect>
+        <ratingselect :describe="describe" :ratings="food.ratings" :only-content="onlyContent"
+                      @changeOnlyContent="changeOnlyContent" @changeSelectType="changeSelectType"></ratingselect>
+        <ul class="ratings-wrap">
+          <li class="rating-item" v-show="needShow(item)" v-for="item in food.ratings">
+            <div class="rating-info clearfix">
+              <div class="time">{{item.time}}</div>
+              <div class="avatar"><img :src="item.avatar" width="12px" height="12px"/></div>
+              <div class="username">{{item.username}}</div>
+            </div>
+            <p class="text"><span
+              :class="{'icon-thumb_down': item.rateType === 1,'icon-thumb_up': item.rateType === 0}"></span>{{item.text}}
+            </p>
+          </li>
+        </ul>
       </div>
     </div>
   </transition>
@@ -38,6 +51,7 @@
   import cartcontrol from '../cartcontrol/cartcontrol.vue'
   import split from '../split/split.vue'
   import ratingselect from '../ratingselect/ratingselect.vue'
+  import { formatDate } from '../../common/js/date'
   import Vue from 'vue'
   import BScroll from 'better-scroll'
 
@@ -55,7 +69,9 @@
           all: '全部',
           positive: '推荐',
           negative: '吐槽'
-        }
+        },
+        onlyContent: false,
+        selectType: 2
       }
     },
     methods: {
@@ -83,20 +99,55 @@
           this.$store.dispatch('setClick', true)
         })
         this.$store.dispatch('setPos', this.pos)
+      },
+      needShow (item) {
+        if (this.onlyContent && item.text) {
+          if (this.selectType === 2) {
+            return true
+          } else {
+            if (item.rateType === this.selectType) {
+              return true
+            }
+          }
+        } else if (!this.onlyContent) {
+          if (this.selectType === 2) {
+            return true
+          } else {
+            if (item.rateType === this.selectType) {
+              return true
+            }
+          }
+        } else {
+          return false
+        }
+      },
+      changeOnlyContent (bool) {
+//        console.log(bool)
+        this.onlyContent = bool
+        this.$nextTick(() => {
+          this.cover.refresh()
+        })
+      },
+      changeSelectType (type) {
+//        console.log(type)
+        this.selectType = type
+        this.$nextTick(() => {
+          this.cover.refresh()
+        })
       }
     },
     watch: {
-      food: function () {
+      'food': function () {
         this.$nextTick(() => {
           if (!this.cover) {
             this.cover = new BScroll(this.$refs.cover, {
               click: true
             })
-            console.log(this.cover)
           } else {
             this.cover.refresh()
           }
         })
+        formatDate(this.food.ratings)
       }
     },
     components: {
@@ -108,6 +159,8 @@
 </script>
 
 <style lang="stylus">
+  @import "../../common/stylus/minix.styl"
+
   .fly-in-enter-active, .fly-in-leave-active
     transition: all 0.4s linear
     transform: translate3d(0, 0, 0)
@@ -222,4 +275,48 @@
           font-weight: 200
           color: rgb(77, 85, 93)
           line-height: 24px
+      .ratings-wrap
+        box-sizing: border-box
+        width: 100%
+        padding: 0 18px
+        .rating-item
+          display: block
+          border-1px(rgba(7, 17, 27, 0.1))
+          .rating-info
+            height: 12px
+            padding-top: 16px
+            .time
+              float: left
+              height: 100%
+              color: rgb(147, 153, 159)
+              font-size: 10px
+              line-height: 12px
+            .avatar
+              float: right
+              width: 12px
+              height: 12px
+              border-radius: 50%
+              overflow: hidden
+            .username
+              float: right
+              height: 100%
+              margin-right: 6px
+              color: rgb(147, 153, 159)
+              font-size: 10px
+              line-height: 12px
+          .text
+            height: 24px
+            padding: 6px 0 16px 0
+            color: rgb(7, 17, 27)
+            font-size: 12px
+            line-height: 24px
+            .icon-thumb_down, .icon-thumb_up
+              margin-right: 4px
+              font-size: 12px
+              line-height: 24px
+            .icon-thumb_down
+              color: rgb(147, 153, 159)
+            .icon-thumb_up
+              color: rgb(0, 160, 220)
+
 </style>
