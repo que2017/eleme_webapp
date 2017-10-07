@@ -3,7 +3,7 @@
     <div class="cover" ref="cover">
       <div class="cover-wrap">
         <div class="close" @click="closeDetail">
-          <span class="icon-close"></span>
+          <span class="icon-arrow_lift"></span>
         </div>
         <div class="title-img"><img :src="food.image" width="100%" height="100%"/></div>
         <div class="food-info">
@@ -188,12 +188,13 @@
         top: 10px
         left: 10px
         width: 32px
-        height: 32px
-        border-radius: 50%
+        height: 18px
+        padding: 7px 0
+        border-radius: 2px
         color: #fff
         text-align: center
-        line-height: 32px
-        font-size: 24px
+        line-height: 18px
+        font-size: 18px
         background: rgba(0, 0, 0, 0.3)
       .title-img
         width: 100%
