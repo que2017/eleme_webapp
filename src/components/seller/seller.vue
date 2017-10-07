@@ -35,6 +35,24 @@
           </li>
         </ul>
       </div>
+      <split></split>
+      <div class="outdoor-scene">
+        <h3 class="title">商家实景</h3>
+        <div class="picture-container" ref="pictureContainer">
+          <ul class="picture-wrap" ref="pictureWrap">
+            <li class="picture" v-for="pic in seller.pics">
+              <img :src="pic" width="120" height="90"/>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <split></split>
+      <div class="seller-info">
+        <h3 class="title">商家信息</h3>
+        <ul class="info-wrap">
+          <li class="info" v-for="item in seller.infos">{{item}}</li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -51,8 +69,8 @@
         type: Object
       }
     },
-    created () {
-      this.$nextTick(() => {
+    methods: {
+      _initScroll () {
         if (!this.sellerWrap) {
           this.sellerWrap = new BScroll(this.$refs.sellerWrap, {
             click: true
@@ -60,8 +78,37 @@
         } else {
           this.sellerWrap.refresh()
         }
-      })
+      },
+      _initPicsScroll () {
+        let width = 126 * this.seller.pics.length
+        this.$refs.pictureWrap.style.width = width + 'px'
+        this.$nextTick(() => {
+          if (!this.pictureContainer) {
+            this.pictureContainer = new BScroll(this.$refs.pictureContainer, {
+              scrollX: true,
+              eventPassthrough: 'vertical'
+            })
+          } else {
+            this.pictureContainer.refresh()
+          }
+        })
+      }
     },
+    computed: {},
+    watch: {
+      'seller' () {
+        this.$nextTick(() => {
+          this._initScroll()
+          this._initPicsScroll()
+        })
+      }
+    },
+//    created () {
+//      this.$nextTick(() => {
+//        this._initScroll()
+//        this._initPicsScroll()
+//      })
+//    },
     components: {
       star,
       split,
@@ -145,4 +192,32 @@
         .support
           padding: 16px 12px
           border-top: 1px solid rgba(7, 17, 27, 0.1)
+    .outdoor-scene
+      padding-bottom: 18px
+      .title
+        padding-left: 18px
+      .picture-container
+        box-sizing: border-box
+        margin-left: 18px
+        overflow: hidden
+        .picture-wrap
+          height: 90px
+          padding-top: 12px
+          font-size: 0
+          .picture
+            display: inline-block
+            width: 120px
+            height: 90px
+            margin-right: 6px
+    .seller-info
+      padding: 0 18px
+      .info-wrap
+        .info
+          height: 16px
+          padding: 16px 12px
+          border-top: 1px solid rgba(7, 17, 27, 0.1)
+          color: rgb(7, 17, 27)
+          font-size: 12px
+          font-weight: 200
+          line-height: 16px
 </style>
