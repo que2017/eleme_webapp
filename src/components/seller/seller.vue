@@ -80,21 +80,25 @@
         }
       },
       _initPicsScroll () {
-        let width = 126 * this.seller.pics.length
-        this.$refs.pictureWrap.style.width = width + 'px'
-        this.$nextTick(() => {
-          if (!this.pictureContainer) {
-            this.pictureContainer = new BScroll(this.$refs.pictureContainer, {
-              scrollX: true,
-              eventPassthrough: 'vertical'
-            })
-          } else {
-            this.pictureContainer.refresh()
-          }
-        })
+        if (this.seller.pics && this.seller.pics.length) {
+          let width = 126 * this.seller.pics.length
+          this.$refs.pictureWrap.style.width = width + 'px'
+          this.$nextTick(() => {
+            if (!this.pictureContainer) {
+              this.pictureContainer = new BScroll(this.$refs.pictureContainer, {
+                scrollX: true,
+                eventPassthrough: 'vertical'
+              })
+            } else {
+              this.pictureContainer.refresh()
+            }
+          })
+        }
       }
     },
-    computed: {},
+    data () {
+      return {}
+    },
     watch: {
       'seller' () {
         this.$nextTick(() => {
@@ -103,12 +107,12 @@
         })
       }
     },
-//    created () {
-//      this.$nextTick(() => {
-//        this._initScroll()
-//        this._initPicsScroll()
-//      })
-//    },
+    created () {
+      this.$nextTick(() => {
+        this._initScroll()
+        this._initPicsScroll()
+      })
+    },
     components: {
       star,
       split,
