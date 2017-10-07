@@ -10,6 +10,10 @@
             <span class="sell-count">月售{{seller.sellCount}}单</span>
           </div>
         </div>
+        <div class="favorite-wrap" @click="toggle">
+          <span class="icon-favorite" :class="{'active': favorite}"></span>
+          <p class="favorite">{{favorite ? '已收藏' : '收藏'}}</p>
+        </div>
       </div>
       <ul class="price-info">
         <li class="info-item">
@@ -69,6 +73,11 @@
         type: Object
       }
     },
+    data () {
+      return {
+        favorite: false
+      }
+    },
     methods: {
       _initScroll () {
         if (!this.sellerWrap) {
@@ -94,10 +103,10 @@
             }
           })
         }
+      },
+      toggle () {
+        this.favorite = !this.favorite
       }
-    },
-    data () {
-      return {}
     },
     watch: {
       'seller' () {
@@ -138,6 +147,7 @@
       font-size: 14px
       line-height: 14px
     .seller-title
+      position: relative
       padding: 0 18px
       .score
         height: 18px
@@ -161,6 +171,25 @@
             margin-left: 12px
             font-size: 10px
             line-height: 18px
+      .favorite-wrap
+        position: absolute
+        top: 18px
+        right: 15px
+        width: 36px
+        text-align: center
+        .icon-favorite
+          display: block
+          color: #d4d6d9
+          font-size: 24px
+          line-height: 24px
+          &.active
+            color: rgb(240, 20, 20)
+        .favorite
+          height: 10px
+          margin-top: 4px
+          color: rgb(77, 85, 93)
+          font-size: 10px
+          line-height: 10px
     .price-info
       display: flex
       width: 100%
@@ -216,8 +245,8 @@
     .seller-info
       padding: 0 18px
       .info-wrap
+        margin-top: 12px
         .info
-          height: 16px
           padding: 16px 12px
           border-top: 1px solid rgba(7, 17, 27, 0.1)
           color: rgb(7, 17, 27)
