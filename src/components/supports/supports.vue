@@ -1,6 +1,6 @@
 <template>
   <div>
-    <span :class="[small?'icon-small':'icon-big',cssMap[type]]"></span>
+    <span :class="[iconStyle,cssMap[type]]"></span>
     <span class="info" :class="{'small': small}">{{description}}</span>
   </div>
 </template>
@@ -17,11 +17,26 @@
       small: {
         type: Boolean,
         default: false
+      },
+      bg: {
+        type: Boolean,
+        default: false
       }
     },
     data () {
       return {
         cssMap: ['decrease', 'discount', 'special', 'invoice', 'guarantee']
+      }
+    },
+    computed: {
+      iconStyle () {
+        if (this.small) {
+          return 'icon-small'
+        } else if (this.bg) {
+          return 'icon-big-bg'
+        } else {
+          return 'icon-big'
+        }
       }
     }
   }
@@ -48,6 +63,24 @@
     &.guarantee
       bg-image('guarantee_2')
 
+  .icon-big-bg
+    display: inline-block
+    vertical-align: middle
+    width: 16px
+    height: 16px
+    background-size: 16px 16px
+    background-repeat: no-repeat
+    &.decrease
+      bg-image('decrease_4')
+    &.discount
+      bg-image('discount_4')
+    &.special
+      bg-image('special_4')
+    &.invoice
+      bg-image('invoice_4')
+    &.guarantee
+      bg-image('guarantee_4')
+
   .icon-small
     display: inline-block
     vertical-align: middle
@@ -69,7 +102,7 @@
   .info
     vertical-align: middle
     margin-left: 6px
-    font-size: 14px
+    font-size: 12px
     font-weight: 200
     line-height: 14px
     &.small

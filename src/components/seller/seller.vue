@@ -30,6 +30,11 @@
     <div class="bulletin">
       <h3 class="title">公告与活动</h3>
       <p class="content">{{seller.bulletin}}</p>
+      <ul class="supports-wrap">
+        <li class="support" v-for="item in seller.supports">
+          <supports :type="item.type" :description="item.description" :bg="true"></supports>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -37,6 +42,7 @@
 <script type="text/ecmascript-6">
   import star from '../star/star.vue'
   import split from '../split/split.vue'
+  import supports from '../supports/supports.vue'
 
   export default {
     props: {
@@ -48,7 +54,8 @@
     },
     components: {
       star,
-      split
+      split,
+      supports
     }
   }
 </script>
