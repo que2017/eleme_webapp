@@ -12,26 +12,35 @@
         <router-link to="/seller" class="r-link">商家</router-link>
       </div>
     </div>
-    <keep-alive><router-view :seller="seller"></router-view></keep-alive>
+    <keep-alive>
+      <router-view :seller="seller"></router-view>
+    </keep-alive>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import header from './components/header/header.vue'
+  import { urlParse } from './common/js/utils'
+
   const ERR_OK = 0
 
   export default {
     data () {
       return {
-        seller: {}
+        seller: {
+          id: (() => {
+            return urlParse().id
+          })()
+        }
       }
     },
     created () {
-      this.$http.get('/api/seller').then((response) => {
+      this.$http.get('/api/seller?id' + this.id).then((response) => {
         if (response.data.errno === ERR_OK) {
           this.seller = response.data.data
         }
       })
+      urlParse()
     },
     components: {
       'v-header': header
@@ -46,14 +55,14 @@
     width: 100%
     height: 40px
     line-height: 40px
-    border-1px(rgba(7,17,27,0.1))
+    border-1px(rgba(7, 17, 27, 0.1))
     .tab-item
       flex: 1
       text-align: center
       & > a
         display: block
         font-size: 14px
-        color: rgb(77,85,93)
+        color: rgb(77, 85, 93)
         &.router-link-active
-          color: rgb(240,20,20)
+          color: rgb(240, 20, 20)
 </style>

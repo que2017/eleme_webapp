@@ -65,6 +65,7 @@
   import star from '../star/star.vue'
   import split from '../split/split.vue'
   import supports from '../supports/supports.vue'
+  import { saveToLocation, loadLocaltionVal } from '../../common/js/store'
   import BScroll from 'better-scroll'
 
   export default {
@@ -106,6 +107,9 @@
       },
       toggle () {
         this.favorite = !this.favorite
+        saveToLocation('id', 'favorite', true)
+        loadLocaltionVal('id', 'favorite', false)
+//        console.log(window.localStorage.__seller__)
       }
     },
     watch: {
