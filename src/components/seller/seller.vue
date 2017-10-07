@@ -1,5 +1,5 @@
 <template>
-  <div class="seller-wrap">
+  <div class="seller-wrap" ref="sellerWrap">
     <div>
       <div class="seller-title">
         <h3 class="title">{{seller.name}}</h3>
@@ -25,16 +25,16 @@
           <div class="price"><span class="stress">{{seller.deliveryTime}}</span>分钟</div>
         </li>
       </ul>
-    </div>
-    <split></split>
-    <div class="bulletin">
-      <h3 class="title">公告与活动</h3>
-      <p class="content">{{seller.bulletin}}</p>
-      <ul class="supports-wrap">
-        <li class="support" v-for="item in seller.supports">
-          <supports :type="item.type" :description="item.description" :bg="true"></supports>
-        </li>
-      </ul>
+      <split></split>
+      <div class="bulletin">
+        <h3 class="title">公告与活动</h3>
+        <p class="content">{{seller.bulletin}}</p>
+        <ul class="supports-wrap">
+          <li class="support" v-for="item in seller.supports">
+            <supports :type="item.type" :description="item.description" :bg="true"></supports>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -43,6 +43,7 @@
   import star from '../star/star.vue'
   import split from '../split/split.vue'
   import supports from '../supports/supports.vue'
+  import BScroll from 'better-scroll'
 
   export default {
     props: {
@@ -51,6 +52,15 @@
       }
     },
     created () {
+      this.$nextTick(() => {
+        if (!this.sellerWrap) {
+          this.sellerWrap = new BScroll(this.$refs.sellerWrap, {
+            click: true
+          })
+        } else {
+          this.sellerWrap.refresh()
+        }
+      })
     },
     components: {
       star,
@@ -131,4 +141,8 @@
         font-size: 12px
         font-weight: 200
         line-height: 24px
+      .supports-wrap
+        .support
+          padding: 16px 12px
+          border-top: 1px solid rgba(7, 17, 27, 0.1)
 </style>
