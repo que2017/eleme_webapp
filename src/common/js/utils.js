@@ -3,6 +3,8 @@ export function urlParse () {
   let reg = /[?&][^?&]+=[^?&]+/g
   let arr = url.match(reg)
   let obj = {}
+  // console.log(url)
+  // console.log(arr)
   if (arr && arr.length) {
     arr.forEach((item) => {
       let hash = item.substring(1)

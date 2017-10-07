@@ -29,18 +29,22 @@
       return {
         seller: {
           id: (() => {
-            return urlParse().id
+            let obj = urlParse()
+            if (obj.id !== undefined) {
+              return obj.id
+            } else {
+              return ''
+            }
           })()
         }
       }
     },
     created () {
-      this.$http.get('/api/seller?id' + this.id).then((response) => {
+      this.$http.get('/api/seller' + (this.seller.id ? ('?id=' + this.seller.id) : '')).then((response) => {
         if (response.data.errno === ERR_OK) {
-          this.seller = response.data.data
+          this.seller = Object.assign({}, this.seller, response.data.data)
         }
       })
-      urlParse()
     },
     components: {
       'v-header': header

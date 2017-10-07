@@ -76,7 +76,10 @@
     },
     data () {
       return {
-        favorite: false
+        favorite: (() => {
+          let bool = loadLocaltionVal(this.seller.id, 'favorite', false)
+          return bool
+        })()
       }
     },
     methods: {
@@ -107,8 +110,7 @@
       },
       toggle () {
         this.favorite = !this.favorite
-        saveToLocation('id', 'favorite', true)
-        loadLocaltionVal('id', 'favorite', false)
+        saveToLocation(this.seller.id, 'favorite', this.favorite)
 //        console.log(window.localStorage.__seller__)
       }
     },

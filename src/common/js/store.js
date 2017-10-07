@@ -1,5 +1,5 @@
 export function saveToLocation (id, key, val) {
-  var seller = window.localStorage.__seller__
+  let seller = window.localStorage.__seller__
   // console.log(seller)
   if (!seller) {
     seller = {}
@@ -15,7 +15,7 @@ export function saveToLocation (id, key, val) {
 }
 
 export function loadLocaltionVal (id, key, defaultValue) {
-  var seller = JSON.parse(window.localStorage.__seller__)
+  let seller = JSON.parse(window.localStorage.__seller__)
   if (seller[id] !== undefined && seller[id][key] !== undefined) {
     return seller[id][key]
   } else {
